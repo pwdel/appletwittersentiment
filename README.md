@@ -51,20 +51,54 @@ So given all of the above, and my background, I decided upon the following appro
 
 ![installing pydrive](/assets/images/installing-pydrive.png)
 
+* I'm opting out of test based development at this point. The objective is quality of analysis and speed of development time.
+* In addition to PyDrive being installed, any files that we read from on Drive itself must be open and shared with the world, at least in non-GSuite instances of this methodology, which in a normal production environment pose a security risk, akin to the all-too common unsecured public S3 bucket.
+
 ## Requested Steps from Work Assignment
 ### Reading the Dataset into Memory
 
-* In this step, my in
+* Within the prototyping phase, the first step of reading the data into memory was to simply download the content as a string object.
+
+```
+downloaded.GetContentFile('Apple-Twitter-Sentiment-DFE.csv')  
+```
+
+* Putting the data into a more organized fashion involves Pandas. The .csv file did not appear to be latin-1 encoded.
+
+```
+sentiment_mix = pd.read_csv('Apple-Twitter-Sentiment-DFE.csv', encoding='latin-1')
+```
 
 ### Compute Set of Engineered Features
+
+
 ### Use regex functions to extract some specific terms
+
+Identification of Regex Functions could be done on specific terms, but if we are looking at this entire project holistically, we can observe that the dataframe columns include all sorts of interesting info, including time series information which could be utilized in different interesting ways in the future. Since this project may possibly include requests for future research, it would be interesting to see how to perhaps, "bulk clean," the entire text column in a way that makes the data more accessible for future project iterations.
+
+Intuitively, we know Twitter to be a fairly well known web element, and likely there are some pre-existing libraries of regex's out there which we may be able to use. A cursory investigation yielded this [Ruby Gem documentation](https://www.rubydoc.info/gems/twitter-text/1.13.0/Twitter/Regex).
+
+[Python-Twitter-API](https://python-twitter.readthedocs.io/en/latest/twitter.html)
+[Tweepy](https://www.tweepy.org/)
+
+https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
+
 ### Compute word embeddings (i.e. word2vec, GloVe, BERT)
+
+word2vec
+
 ### Tfidf
+
 ### Train Classifier to Predict the 'Sentiment' Class
+
 ### Save the Model To Some Format For Scoring
+
 ### Stand Up API Service That Has Inputs and Outputs
+
 #### Input: Plain Text
+
 #### Output: Prediction of Sentiment & Probability of Prediction
+
 ### Model Deployment
 
 Dockerizing Colab
