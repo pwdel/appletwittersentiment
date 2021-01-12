@@ -69,6 +69,43 @@ downloaded.GetContentFile('Apple-Twitter-Sentiment-DFE.csv')
 sentiment_mix = pd.read_csv('Apple-Twitter-Sentiment-DFE.csv', encoding='latin-1')
 ```
 
+#### Dialing into the Data Columns
+
+At this point, since we are able to actually load the data into the system, before we actually start cleaning the data, it might be appropriate to understand a bit more about what the various columns mean. We don't have defined instructions.
+
+I found a [description of the original dataset here](https://data.world/crowdflower/apple-twitter-sentiment), which states the following:
+
+> A look into the sentiment around Apple, based on tweets containing #AAPL, @apple, etc. Contributors were given a tweet and asked whether the user was positive, negative, or neutral about Apple. (They were also allowed to mark "the tweet is not about the company Apple, Inc.)
+
+In addition, this [Kaggle Competition](https://www.kaggle.com/c/apple-computers-twitter-sentiment2/data) mentions the following about the dataset:
+
+> In .csv files they are idenitified as: 1) Positive - 5; 2) Neutral - 3; 3) Negative - 1.
+
+#### Dialing Deeper Into What the Data Actually Means
+
+What does the _golden sample mean?
+
+Inaccurate records can be a significant burden on organizational productivity. The idea behind, 'The Golden Record,' according to data management principals, is to have a single source of truth, assumed to be 100% accurate by multiple parts of an organization. Since research teams do not work in a vacuum, and there are always monetary considerations for any ongoing work, it is important to at least ask other stakeholders the importance of a particular notation to understand how critical it may be for a particular analysis.  Typically, "golden record" indicates that accuracy for non-golden record classified data points is suspect, from the standpoint of technology management.
+
+
+
+
+| Column               | Interpretation                                                                                     |
+|----------------------|----------------------------------------------------------------------------------------------------|
+| _unit_id             |                                                                                                    |
+| _golden              | TRUE can be assumed as being 100% accurate, while FALSE cannot.                                    |
+| _unit_state          | "golden" can be assumed as being 100% accurate, while "finalized" can be assumed as being unknown. |
+| _trusted_judgments   |                                                                                                    |
+| _last_judgment_at    |                                                                                                    |
+| sentiment            |                                                                                                    |
+| sentiment:confidence |                                                                                                    |
+| date                 |                                                                                                    |
+| id                   |                                                                                                    |
+| query                |                                                                                                    |
+| sentiment_gold       |                                                                                                    |
+| text                 | The raw, original text strings                                                                     |
+
+
 ### Compute Set of Engineered Features
 
 
@@ -82,6 +119,9 @@ Intuitively, we know Twitter to be a fairly well known web element, and likely t
 [Tweepy](https://www.tweepy.org/)
 
 https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
+
+
+
 
 ### Compute word embeddings (i.e. word2vec, GloVe, BERT)
 
@@ -106,11 +146,32 @@ Dockerizing Colab
 SSH into Colab
 
 
-3.	Trains any classifier to predict the `sentiment` class
-4.	Saves the model to some format that can be used for scoring
-5.	Stand-up an API service that has:
-a.	Input: plain text
-b.	Output: prediction of sentiment + the probability of that prediction
-6.	Deployment of model + api service should be dockerized
+## Discussion
 
-Docker
+* Scoring is a form of classification
+
+* Supervised model
+
+* Boundary condition classifying an emotion as, "happy" or "not happy" will always yield a result.
+
+* Whether this result can actually be tied to an actual psychologically defined emotion, or rather, behavior is another question.
+
+https://www.semanticscholar.org/paper/Supervised-Term-Weighting-Metrics-for-Sentiment-in-Hamdan-Bellot/e4a9204ee11f5593207c5e262bf26c147620c913/figure/2
+
+
+## Questions
+
+What do the various columns mean?
+
+* _unit_id
+* _golden - is it appropriate to consider items categorized as, "golden" as being 100% accurate and items categorized as, "final" as not necessarily known?
+* _unit_state
+* _trusted_judgments
+* _last_judgment_at
+* sentiment
+* sentiment:confidence
+* date
+* id
+* query
+* sentiment_gold
+* text
