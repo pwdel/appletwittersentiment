@@ -4,7 +4,7 @@ Apple Twitter Sentiment Analysis Project
 
 ## Meta Objective
 
-* The objective of this report is to clearly and concisely document my thoughts working on, "The Apple Computers Twitter Sentiment dataset," project.
+* The objective of this report is to clearly and concisely document my thoughts working on, "The Apple Computers Twitter Sentiment dataset," [project assignment](/assets/assignment/assignment.md).
 * This work is being documented under [Tom Preston Warner's README driven development](https://tom.preston-werner.com/2010/08/23/readme-driven-development.html) methodology.
 
 ## Project Objective
@@ -179,6 +179,8 @@ http://www.marksanderson.org/publications/my_papers/ADC2014.pdf
 #### Input: Plain Text
 
 #### Output: Prediction of Sentiment & Probability of Prediction
+
+
 
 ### Model Deployment
 
