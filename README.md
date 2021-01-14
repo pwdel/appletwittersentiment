@@ -228,6 +228,23 @@ https://www.semanticscholar.org/paper/Supervised-Term-Weighting-Metrics-for-Sent
 
 > What right do we have to say that our model actually describes the desires of our customers?
 
+
+## Issues or Flagged Items for Future Improvement
+
+### Simpler Improvements (Grunt Coding Work)
+
+* Expanding Regex accuracy for all potential cases.  Essentially, generalizing the Regex.
+
+### Time Consuming, Expensive Improvements
+
+* Comparing predefined, documented measurement methods against each other for performance improvement.
+** Essentially, comparing existing tools and methods against each other to ensure that a particular direction makes sense, performance wise, or at least being able to compare algorithms against each other, within reason and without being overly-obsessive about which precise algorithm selected and whether it provides a relatively small percent performance improvement when measuring input to output efficiency vs. balancing other project needs.
+
+### More Advanced Improvements
+
+* Gaining a fuller understanding of what customers or stakeholders really meant by their comments. Basically, gaining deeper subject matter expertise on a particular topic, and being able to refine models by specific insights and sentiment quality which requires actually speaking with and creating a human feedback loop between customers and those building the models.
+* 
+
 ## Questions
 
 What do the various columns mean?
