@@ -1,7 +1,9 @@
-Overview
+## Overview
+
 The goal of this homework assignment is to demonstrate your ability to create a machine learning pipeline, train a model and optionally stand-it up for inference.
 
 For this assignment you will be working with the Apple Computers Twitter Sentiment dataset. We’d like you to write a ML pipeline using any programing language you’re comfortable with that:
+
 1.	Reads the dataset into memory
 2.	Computes some set of engineered features - example features:
 a.	Use regex functions to extract some specific terms

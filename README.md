@@ -11,7 +11,7 @@ Apple Twitter Sentiment Analysis Project
 
 * Create a machine learning pipeline, train a model and optionally stand-it up for inference.
 * Demonstrate your ability to create a machine learning pipeline, train a model and optionally stand-it up for inference.
-* Allow Carvana to understand the process of how you piece all of these components together.
+* Allow _Company_ to understand the process of how I piece all of these components together and what steps I take to ensure accuracy.
 
 ## My Background
 
@@ -39,7 +39,7 @@ So given all of the above, and my background, I decided upon the following appro
 
 1. Use [Google CoLab](https://colab.research.google.com/) to quickly attempt to build something that barely works within as short of a time as possible.  
 ** I tend to angle toward prototyping in notebooks or IDEs if one exists for a particular problem set rather than in straight code. I believe this makes the process of thinking and iterating more efficient, by abstracting away library management and anything related to devops as much as possible early in the process, but rather to focus on driving value immediately. Part of the reason why I would select Colab rather than using a Jupyter notebook is because I don't have to worry about setting up a Python environment, or worrying about which Python environment needs to fit later in the Machine Learning pipeline at this stage, it's just straight code.
-2. Do background research and decide upon naming conventions, do light research on approach as I dive into the analysis. Sketch out thoughts, any math needed, poems jokes, songs or comics that come to mind which are relavant to the work at hand.
+2. Do background research, analysis and deeper dive into the data itself to understand to the greatest degree what is contained in the dataset, and decide upon naming conventions. This also involves doing light research on an approach to build an app as I dive into the analysis. This may also involve some back and fourth questions with the team providing the assignment, which may change depending upon the context of who the dataset was sent from, and what the project purpose is. There are always differences in context which dictate how much communication is called for, vs. how much independent work is expected to maximize overall team efficiency.
 3. Examine the output and overall codebase. Review and think about what needs to be done next to meet all of the criteria above.
 4. Iterate and build and deploy in a dockerized format, per the assignment request.
 5. Refine the above according to anything thought provoking that I may think of or come across along the way.
@@ -83,28 +83,38 @@ In addition, this [Kaggle Competition](https://www.kaggle.com/c/apple-computers-
 
 #### Dialing Deeper Into What the Data Actually Means
 
-What does the _golden sample mean?
+##### My Understanding of the Setup
 
-Inaccurate records can be a significant burden on organizational productivity. The idea behind, 'The Golden Record,' according to data management principals, is to have a single source of truth, assumed to be 100% accurate by multiple parts of an organization. Since research teams do not work in a vacuum, and there are always monetary considerations for any ongoing work, it is important to at least ask other stakeholders the importance of a particular notation to understand how critical it may be for a particular analysis.  Typically, "golden record" indicates that accuracy for non-golden record classified data points is suspect, from the standpoint of technology management.
+Based upon the above description that, "Contributors were given a tweet and asked whether the user was...," it appears that this spreadsheet was built in two to three "stages."
 
-
+* The first stage appeared to involve "Contributors," ascribing a positivity, negativity or neutral rating the text data within the, 'sentiment' column.
+* The second stage appeared to involve applying some sort of "judgement" layer to that original sentiment rating. It appears that there may have been, "Meta Contributors," ascribing some sort of manual judgement on top of the, "Contributors," as a form of dual-factor authentication, within the column titled, "_trusted_judgments".  However, it is also possible that somehow the Contributors themselves, rather than Meta Contributors. There appears to have been a, _last_judgement_at date recorded within the named column, which appears to refer to the, _trusted_judgement column, although it is entirely possible that the _last_judgement_at column is referring to the, "sentiment" judgement.  Based upon the locations of the date columns, we can reasonably believe there were two stages, but this would be a good question to normally ask to whomever provided the data originally.
 
 
 | Column               | Interpretation                                                                                     |
 |----------------------|----------------------------------------------------------------------------------------------------|
-| _unit_id             |                                                                                                    |
+| _unit_id             | appears to be an arbitrarily assigned, ordinal listing of all rows.                                                                                                     |
 | _golden              | TRUE can be assumed as being 100% accurate, while FALSE cannot.                                    |
 | _unit_state          | "golden" can be assumed as being 100% accurate, while "finalized" can be assumed as being unknown. |
-| _trusted_judgments   |                                                                                                    |
-| _last_judgment_at    |                                                                                                    |
-| sentiment            |                                                                                                    |
-| sentiment:confidence |                                                                                                    |
-| date                 |                                                                                                    |
-| id                   |                                                                                                    |
-| query                |                                                                                                    |
-| sentiment_gold       |                                                                                                    |
+| _trusted_judgments   |                Appears to be a scaled measurement of some kind, ranging from a minimum of 3 to a maximum of 27.  This appears to be some kind of measurement that was put in place to score either how trusted an entire column sentiment judgement is from a meta user, or how much a particular user trusted their own judgment                                                                                     |
+| _last_judgment_at    | Appears to be either when the last, _trusted_judgement was applied. If our assumption that _trusted_judgements were applied in a, "Second Stage" by a "Meta Contributor" this makes sense  because this date occurs after what appears to be the date that the sentiment was ascribed, if indicated by column "date" Much of the "_last_judgement_at" space is nullspace, the reasons for this are unknown.                                                                                                   |
+| sentiment            | sentiment is the score assigned by Contributors, who assigned optionally 1, 3, or 5, which map out to -1, 0, and +1 in a standard normalized sentiment algorithm.                                                                                                   |
+| sentiment:confidence | 654 possible values, evidently originally normalized, ranging from 0.3327 to 1. This evidently refers to the confidence                                                                                                     |
+| date                 | Appears to indicate the date that the sentiment  was ascribed. This date appears to                                                                                                      |
+| id                   | Appears to be some overarching id number, all rows contain the value '540000000000000000'                                                                                                   |
+| query                |           Appears to be the query entered to come up with the text row result. All values were #AAPL OR @Apple                                                                                         |
+| sentiment_gold       | Appears to be an unstructured column that contains sentiment values, but some of the sentiment values contain two sentiment measurements, as well as the term "not_relevant" One row contains what appears to have originally been raw text.  All possible values include: "1", "3", "5","3 1", "3 1 not_relevant", "3 not_relevant", "@tschwettman @Apple THIS IS THE WORST DAY OF MY LIFE","5 3 1","5 3 not_relevant"  It is unknown why this column is termed, "gold"                                                                                                   |
 | text                 | The raw, original text strings                                                                     |
 
+#### Further Filtering the Data
+
+*What does the _golden column sample mean?*
+
+Inaccurate records can be a significant burden on organizational productivity. The idea behind, 'The Golden Record,' according to data management principals, is to have a single source of truth, assumed to be 100% accurate by multiple parts of an organization. Since research teams do not work in a vacuum, and there are always monetary considerations for any ongoing work, it is important to at least ask other stakeholders the importance of a particular notation to understand how critical it may be for a particular analysis.  Typically, "golden record" indicates that accuracy for non-golden record classified data points is suspect, from the standpoint of technology management.
+
+From this standpoint, it would appear that it may be important to eliminate all non-golden samples.  While a particular algorithm built may, "self report," its own accuracy based upon input data alone, there is another question as to whether this model performance actually reflects what happens in objective reality. In other words:
+
+> What right do we have to say that our model actually describes the desires of our customers?
 
 ### Compute Set of Engineered Features
 
@@ -129,6 +139,9 @@ https://datascience.stackexchange.com/questions/30516/how-does-one-go-about-feat
 
 ### Compute word embeddings (i.e. word2vec, GloVe, BERT)
 
+
+#### Researching Steps to Compute Word Embeddings
+
 word2vec
 
 https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/text/word2vec.ipynb
@@ -146,6 +159,13 @@ https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/
 https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU
 
 ### Train Classifier to Predict the 'Sentiment' Class
+
+#### Further Research on Topic
+
+* Through researching dataset definitions in an above section, I was actually able to find an entire solution set to this assignment [at this blog here](https://harrisonjansma.com/apple), including tokenization, which already claimed an 89% accuracy using linear model using Logistic Regression, claiming a performance lead over a linear Support Vector Machine model.
+
+
+
 
 Using features extracted above, we can assign positive and negative values to words.
 
@@ -201,6 +221,12 @@ SSH into Colab
 
 https://www.semanticscholar.org/paper/Supervised-Term-Weighting-Metrics-for-Sentiment-in-Hamdan-Bellot/e4a9204ee11f5593207c5e262bf26c147620c913/figure/2
 
+* Entire solution found
+
+* Fast ways to solve problems, regular cooking.
+* Gourmet Cooking, more creative ways to solve problems.
+
+> What right do we have to say that our model actually describes the desires of our customers?
 
 ## Questions
 
