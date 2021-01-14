@@ -113,7 +113,7 @@ Inaccurate records can be a significant burden on organizational productivity. T
 
 Identification of Regex Functions could be done on specific terms, but if we are looking at this entire project holistically, we can observe that the dataframe columns include all sorts of interesting info, including time series information which could be utilized in different interesting ways in the future. Since this project may possibly include requests for future research, it would be interesting to see how to perhaps, "bulk clean," the entire text column in a way that makes the data more accessible for future project iterations.
 
-Intuitively, we know Twitter to be a fairly well known web element, and likely there are some pre-existing libraries of regex's out there which we may be able to use. A cursory investigation yielded this [Ruby Gem documentation](https://www.rubydoc.info/gems/twitter-text/1.13.0/Twitter/Regex).
+Intuitively, Twitter is a fairly well known web element, and likely there are some pre-existing libraries of regex's out there which we may be able to use. A cursory investigation yielded this [Ruby Gem documentation](https://www.rubydoc.info/gems/twitter-text/1.13.0/Twitter/Regex).
 
 [Python-Twitter-API](https://python-twitter.readthedocs.io/en/latest/twitter.html)
 [Tweepy](https://www.tweepy.org/)
@@ -121,15 +121,56 @@ Intuitively, we know Twitter to be a fairly well known web element, and likely t
 https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
 
 
+https://ieeexplore.ieee.org/document/8022667
+
+https://datascience.stackexchange.com/questions/30516/how-does-one-go-about-feature-extraction-for-training-labelled-tweets-for-sentim
+
 
 
 ### Compute word embeddings (i.e. word2vec, GloVe, BERT)
 
 word2vec
 
+https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/text/word2vec.ipynb
+
+GloVe
+
+https://colab.research.google.com/github/mdda/deep-learning-workshop/blob/master/notebooks/5-RNN/3-Text-Corpus-and-Embeddings.ipynb
+
+BERT
+
+https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/bert_finetuning_with_cloud_tpus.ipynb
+
 ### Tfidf
 
+https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU
+
 ### Train Classifier to Predict the 'Sentiment' Class
+
+Using features extracted above, we can assign positive and negative values to words.
+
+Is there a ready made database of positive and negative words which may already exist within our text?
+
+https://www.quora.com/Is-there-a-downloadable-database-of-positive-and-negative-words
+
+Subjectivity Lexicon
+
+http://mpqa.cs.pitt.edu/
+
+Another sentiment Lexicon
+https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html#lexicon
+
+https://github.com/apmoore1/SentiLexTutorial
+
+https://github.com/apmoore1/SentiLexTutorial/blob/master/Tutorial.ipynb
+
+Paper:
+
+https://www.aclweb.org/anthology/D16-1057/
+
+Twitter Specific paper
+
+http://www.marksanderson.org/publications/my_papers/ADC2014.pdf
 
 ### Save the Model To Some Format For Scoring
 
