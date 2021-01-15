@@ -160,7 +160,9 @@ This documentation might be appropriate for a longer-term, enhanced version of t
 
 ### Compute Word Embeddings (i.e. word2vec, GloVe, BERT)
 
-https://datascience.stackexchange.com/questions/30516/how-does-one-go-about-feature-extraction-for-training-labelled-tweets-for-sentim
+[General instructions on how to create word embeddings](https://datascience.stackexchange.com/questions/30516/how-does-one-go-about-feature-extraction-for-training-labelled-tweets-for-sentim) which can roughly be described as follows:
+
+
 
 #### Researching Steps to Compute Word Embeddings
 
@@ -183,23 +185,24 @@ Basically, several options were suggested by _Company_ as potential ways to get 
 | T-Distributed Stochastic Neighbour Embedding (t-SNE) | Method  | The t-SNE algorithm comprises two main stages. First, t-SNE constructs a probability distribution over pairs of high-dimensional objects in such a way that similar objects are assigned a higher probability while dissimilar points are assigned a lower probability. Second, t-SNE defines a similar probability distribution over the points in the low-dimensional map, and it minimizes the Kullback–Leibler divergence (KL divergence) between the two distributions with respect to the locations of the points in the map. While the original algorithm uses the Euclidean distance between objects as the base of its similarity metric, this can be changed as appropriate.                 |
 
 
+#### Summary of Comparative Analysis
+
+Basically, the above table discusses some of the abstract mathematics between various methodologies and libraries within Natural Language Processing.  Overall:
+
+* BERT appears to be thought of as the most, "accurate," and modern model.  Whereas in the past, LSTM may have been more popular and while many various tutorials exist using LSTM for sentiment analysis online, BERT is thought to take into account some of the weaknesses of RNN-only models, by adding an, "attention," layer which computes relevance of various terms.
+* Whereas Word2Vec and Glove would produce different
+* Note, I did find existing CoLab notebooks for [word2vec](https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/text/word2vec.ipynb), [GloVe](https://colab.research.google.com/github/mdda/deep-learning-workshop/blob/master/notebooks/5-RNN/3-Text-Corpus-and-Embeddings.ipynb), and [BERT](https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/bert_finetuning_with_cloud_tpus.ipynb), as well as [TFIDF](https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU).
 
 
-word2vec
+### Bulding Our Own BERT Code
 
-https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/text/word2vec.ipynb
+https://towardsdatascience.com/word-embedding-using-bert-in-python-dd5a86c00342
 
-GloVe
 
-https://colab.research.google.com/github/mdda/deep-learning-workshop/blob/master/notebooks/5-RNN/3-Text-Corpus-and-Embeddings.ipynb
-
-BERT
-
-https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/bert_finetuning_with_cloud_tpus.ipynb
 
 ### Tfidf
 
-https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU
+[TFIDF](https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU).
 
 ### Train Classifier to Predict the 'Sentiment' Class
 
