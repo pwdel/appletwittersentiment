@@ -43,7 +43,9 @@ So given all of the above, and my background, I decided upon the following appro
 3. Examine the output and overall codebase. Review and think about what needs to be done next to meet all of the criteria above.
 4. Iterate and build and deploy in a dockerized format, per the assignment request.
 5. Refine the above according to anything thought provoking that I may think of or come across along the way.
-6. Write up the report within the README file.
+6. Write up the report within the README file. Throughout the above, take notes on ideas for improvements in the README file and update as we progress.
+
+Any of the above steps may happen at any time, the above is not necessarily a sequential process, but more of a general leaning.
 
 ## Building the Prototype
 
@@ -89,6 +91,7 @@ Based upon the above description that, "Contributors were given a tweet and aske
 
 * The first stage appeared to involve "Contributors," ascribing a positivity, negativity or neutral rating the text data within the, 'sentiment' column.
 * The second stage appeared to involve applying some sort of "judgement" layer to that original sentiment rating. It appears that there may have been, "Meta Contributors," ascribing some sort of manual judgement on top of the, "Contributors," as a form of dual-factor authentication, within the column titled, "_trusted_judgments".  However, it is also possible that somehow the Contributors themselves, rather than Meta Contributors. There appears to have been a, _last_judgement_at date recorded within the named column, which appears to refer to the, _trusted_judgement column, although it is entirely possible that the _last_judgement_at column is referring to the, "sentiment" judgement.  Based upon the locations of the date columns, we can reasonably believe there were two stages, but this would be a good question to normally ask to whomever provided the data originally.
+* There may have also been a third stage, where a Meta Contributor or perhaps a third user, a Super Contributor, or multiple Super Contributors may have done an an additional analysis of the sentiment column ratings, and entered in an actual sentiment value that they believe to be true, under sentiment_gold. However, this column, sentiment_gold, may have been a, "leftover" column from a completely different Twitter sentiment analysis exercise.
 
 
 | Column               | Interpretation                                                                                     |
@@ -116,8 +119,36 @@ From this standpoint, it would appear that it may be important to eliminate all 
 
 > What right do we have to say that our model actually describes the desires of our customers?
 
-### Compute Set of Engineered Features
+Further to this question on the definition of "gold," or "golden," there is an additional column, "sentiment_gold" which contains the values described above. Through research online, it appears that this column may actually have been left over from another sentiment analysis exercise, this link to an, [Intro to Python Twitter Sentiment Guide Document](https://rstudio-pubs-static.s3.amazonaws.com/461021_d910cc02947241669b8c844ff1433a11.html), shows the same column name, but also includes a column for, "sentiment_gold_reason," which includes written reasons for the "sentiment_gold" ratings, making it seem like the "sentiment_gold," is the fully finalized version of the data.
 
+#### Editing Questions Prior to Sending Off
+
+Often in work environments we are faced with coworkers, customers, management, stakeholders, vendors and others who are completely pressed for time and unable to answer all of our questions at length or give large amounts of information.  Our challenge is to not merely collect information, but to do so in a way that builds a good relationship and respects the recipient of our questions and inquiries.
+
+The challenge is of course, not to overburden people with meetings or massively long emails, but rather to be helpful and thoughtful in our communication.
+
+That being said, rather than dumping a large list of questions about every single column in a dataset, I err on the side of asking a few key questions to start off with, with the hope being that long-term, if the project importance is high, we could go through more of a, "product management" process and ask and answer questions at length.  That being said, to formalize my understanding of the data above, I decided to ask a few key questions for this assignment for further clarification:
+
+##### Questions to Send
+
+```
+For the purposes of this assignment, can you answer any of these questions to the best of your ability?  If you don't know the answer or don't have time, that's fine you can just let me know that too - this is just an exercise, by my understanding, so this is not super critical and I don't want you to feel like you are not being responsive or respectful to me if you don't really have a solid answer. :
+
+1. Can we consider, the "_golden" column to have the following meaning:	TRUE can be assumed as being 100% accurate, as verified by someone qualified and internal to _Company_ while FALSE cannot.
+2. Can we consider, "_trusted_judgments" to mean, a second stage of the creation of the .csv file in which someone went through and looked at the, "sentiment" column and double checked whether the sentiments looked right or not?
+3. Or, would it be better to consider the, "sentiment:confidence" to represent some metric of confidence as to whether the "sentiment" column was correct?  Is there a preferred method to, verify or double check sentiment out of these two methods, from the standpoint of _Company_ for this exercise?
+4. sentiment_gold is fairly unstructured and seems to have one datapoint from, "text."  Should we accept sentiment to be a, "throw away," or does "sentiment_gold" in fact mean that this is actually the "golden" datapoint for sentiment rather than the, "sentiment" column?
+
+Thank you for your time and consideration in any of the above that you may have time to be able to answer.
+
+```
+After asking this set of questions, I got the following answer back, which helped clear things up:
+
+![Stakeholder Input](/assets/images/stakeholderinput.png)
+
+So the basic, default answer was: "You can assign it meaning, or it can be ignored to make things simpler," or perhaps more importantly, "ignore it to make it simpler."
+
+### Compute Set of Engineered Features
 
 ### Use regex functions to extract some specific terms
 
@@ -125,22 +156,34 @@ Identification of Regex Functions could be done on specific terms, but if we are
 
 Intuitively, Twitter is a fairly well known web element, and likely there are some pre-existing libraries of regex's out there which we may be able to use. A cursory investigation yielded this [Ruby Gem documentation](https://www.rubydoc.info/gems/twitter-text/1.13.0/Twitter/Regex).
 
-[Python-Twitter-API](https://python-twitter.readthedocs.io/en/latest/twitter.html)
-[Tweepy](https://www.tweepy.org/)
+This documentation might be appropriate for a longer-term, enhanced version of the software that cleans out all possible non-word characters, but starting off with, I did some other quick searches and found a [Stackoverflow answer with a pre-built function](https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression) which already include a wide variety of Python-based Twitter regex extractors. From experience, I understand regex removal work can be fairly tedious, so I decided to make this workable and then move on with the exercise, since I'm attempting to optimize for knowledge demonstration rather than platform construction.
 
-https://stackoverflow.com/questions/8376691/how-to-remove-hashtag-user-link-of-a-tweet-using-regular-expression
-
-
-https://ieeexplore.ieee.org/document/8022667
+### Compute Word Embeddings (i.e. word2vec, GloVe, BERT)
 
 https://datascience.stackexchange.com/questions/30516/how-does-one-go-about-feature-extraction-for-training-labelled-tweets-for-sentim
 
-
-
-### Compute word embeddings (i.e. word2vec, GloVe, BERT)
-
-
 #### Researching Steps to Compute Word Embeddings
+
+Basically, several options were suggested by _Company_ as potential ways to get at word embeddings.  Going in any one direction without having much background information on the topic would invite overcomplexity and excess work, so rather than barreling forward at this point, it would be useful to possibly test out and inform myself on what the various types are.
+
+#### Comparative Analysis
+
+| Method                                               | Type    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|------------------------------------------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| word2vec                                             | Method  | Shallow, two-layer neural networks that are trained to reconstruct linguistic contexts of words. Word2vec takes as its input a large corpus of text and produces a vector space, typically of several hundred dimensions, with each unique word in the corpus being assigned a corresponding vector in the space. Word vectors  are positioned in the vector space such that words that share common contexts in the corpus are located close to one another in the space.  This positioning is established by the cosine similarity between the vectors.                                                                                                                                              |
+| GloVe                                                | Method  | "Global Vectors," is an unsupervised method which works by mapping words into a meaningful space where the distance between words is related to semantic similarity. Training is performed on aggregated global word-word co-occurrence statistics from a corpus, and the resulting representations showcase interesting linear substructures of the word vector space. The advantage of GloVe is that, unlike Word2vec, GloVe does not rely just on local statistics (local context information of words), but incorporates global statistics (word co-occurrence) to obtain word vectors.                                                                                                            |
+| GN-GloVe                                             | Method  | Gender Neutral Global Vectors - the same as Global Vectors, but eliminates Gender information from the corpus.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Flair Embeddings                                     | Method  | Flair embeddings trained without any explicit notion of words and thus fundamentally model words as sequences of characters and they are contextualized by their surrounding text, meaning that the same word will have different embeddings depending on its contextual use.                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Allen NLP's ELMo                                     | Method  | Character-level tokens are taken as the inputs to a bi-directional LSTM which produces word-level embeddings. Like BERT (but unlike the word embeddings produced by "Bag of Words" approaches, and earlier vector approaches such as Word2Vec and GloVe ), ELMo embeddings are context-sensitive, producing different representations for words that share the same spelling but have different meanings (homonyms) such as "bank" in "river bank" and "bank balance"                                                                                                                                                                                                                                  |
+| BERT                                                 | Method  | BERT is not fully understood, as it appears to be proprietary to Google, however it appears to use a Transformer method, as opposed to a RNN method such as LSTM, which is a similar methodology used by GPT. Uses RNN's combined with an attention mechanism, which stores and propagates relevant information down the sequential chain of events within the RNN to the last node. Unlike RNNs, Transformers do not require that the sequential data be processed in order. For example, if the input data is a natural language sentence, the Transformer does not need to process the beginning of it before the end.This allows for greater parallelization and therefore shorter training times. |
+| fastText                                             | Library | fastText is a library for learning of word embeddings and text classification created by Facebook's AI Research (FAIR) lab. The model allows one to create an unsupervised learning or supervised learning algorithm for obtaining vector representations for words. The library was generated via Neural Network methods.                                                                                                                                                                                                                                                                                                                                                                             |
+| Gensim                                               | Library | Gensim is an open source library. Gensim includes streamed parallelized implementations of fastText, word2vec and doc2vec algorithms, as well as latent semantic analysis (LSA, LSI, SVD), non-negative matrix factorization (NMF), latent Dirichlet allocation (LDA), tf-idf and random projections.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Indra                                                | Library | Indra is an efficient library and service to deliver word-embeddings and semantic relatedness to real-world applications in the domains of machine learning and natural language processing. It offers 60+ pre-build models in 15 languages and several model algorithms and corpora. Indra is powered by spotify-annoy delivering an efficient approximate nearest neighbors  function.                                                                                                                                                                                                                                                                                                               |
+| Principal Component Analysis (PCA)                   | Method  | PCA is a form of transform which involves multiple steps, first parameterizing a large vector onto a euclidian space by distance calculation, by mapping all observations on said space as a function of the distance to the center of the space, with a selected distance measurement, typically Cosine distance. Once mapped onto a euclidian space, the observations can then be clustered or a boundary can be created which describes a particular word as a particular grouping, for example, "negative" or "positive."                                                                                                                                                                          |
+| T-Distributed Stochastic Neighbour Embedding (t-SNE) | Method  | The t-SNE algorithm comprises two main stages. First, t-SNE constructs a probability distribution over pairs of high-dimensional objects in such a way that similar objects are assigned a higher probability while dissimilar points are assigned a lower probability. Second, t-SNE defines a similar probability distribution over the points in the low-dimensional map, and it minimizes the Kullback–Leibler divergence (KL divergence) between the two distributions with respect to the locations of the points in the map. While the original algorithm uses the Euclidean distance between objects as the base of its similarity metric, this can be changed as appropriate.                 |
+
+
+
 
 word2vec
 
@@ -171,14 +214,9 @@ Using features extracted above, we can assign positive and negative values to wo
 
 Is there a ready made database of positive and negative words which may already exist within our text?
 
-https://www.quora.com/Is-there-a-downloadable-database-of-positive-and-negative-words
 
-Subjectivity Lexicon
 
-http://mpqa.cs.pitt.edu/
 
-Another sentiment Lexicon
-https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html#lexicon
 
 https://github.com/apmoore1/SentiLexTutorial
 
@@ -233,31 +271,26 @@ https://www.semanticscholar.org/paper/Supervised-Term-Weighting-Metrics-for-Sent
 
 ### Simpler Improvements (Grunt Coding Work)
 
-* Expanding Regex accuracy for all potential cases.  Essentially, generalizing the Regex.
+* Expanding Regex accuracy for all potential cases.  Essentially, generalizing the Regex according to this [Ruby Gem documentation](https://www.rubydoc.info/gems/twitter-text/1.13.0/Twitter/Regex).
+* Creating a user prompt that allows a data scientist to select which columns they would like to utilize in the creation of a training or performance measuring system, to be able to compare results from different types of inputs and outputs, since it might be unclear which data is considered golden and which is not.
 
 ### Time Consuming, Expensive Improvements
 
 * Comparing predefined, documented measurement methods against each other for performance improvement.
 ** Essentially, comparing existing tools and methods against each other to ensure that a particular direction makes sense, performance wise, or at least being able to compare algorithms against each other, within reason and without being overly-obsessive about which precise algorithm selected and whether it provides a relatively small percent performance improvement when measuring input to output efficiency vs. balancing other project needs.
+* Implementing test-driving development, using, "try," and other standard best practices, perhaps writing tests first and then the actual code itself to ensure viability.
+* Getting a better understanding of what system this may be implemented on, what the long-term software architecture may be, and providing for security analysis options and implementation. Some of these may be easy, no-brainers such as using environmental variables tied to a server, but there may also be a full-range of security best practices that could be implemented, depending upon the vulnerability and value of the underlying software in the future.
 
 ### More Advanced Improvements
 
 * Gaining a fuller understanding of what customers or stakeholders really meant by their comments. Basically, gaining deeper subject matter expertise on a particular topic, and being able to refine models by specific insights and sentiment quality which requires actually speaking with and creating a human feedback loop between customers and those building the models.
-* 
+* Gaining a better, contextual understanding of what the IT and security needs of the overall organization are, and creating security standards and protocols for software that we may design to integrate with larger systems.
+* Creating a formalized documentation, comment protocol and standard software design practice project document to keep code clean, nice and understandable going forward.
 
-## Questions
+## Citations and Notes:
 
-What do the various columns mean?
+https://ieeexplore.ieee.org/document/8022667
+The results show that the manually indicated tokens combined with a Decision Tree classifier outperform any other feature set-classification algorithm combination. The manually annotated dataset that was used in our experiments is publicly available for anyone who wishes to use it.
 
-* _unit_id
-* _golden - is it appropriate to consider items categorized as, "golden" as being 100% accurate and items categorized as, "final" as not necessarily known?
-* _unit_state
-* _trusted_judgments
-* _last_judgment_at
-* sentiment
-* sentiment:confidence
-* date
-* id
-* query
-* sentiment_gold
-* text
+http://mpqa.cs.pitt.edu/
+UPitt Subjectivity Lexicon
