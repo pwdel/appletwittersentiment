@@ -37,7 +37,7 @@ Further to this, it was specified that:
 
 So given all of the above, and my background, I decided upon the following approach to building something out:
 
-1. Use [Google CoLab](https://colab.research.google.com/) to quickly attempt to build something that barely works within as short of a time as possible.  
+1. Use [Google CoLab](https://colab.research.google.com/) to quickly attempt to build something that barely works within as short of a time as possible.  The notebook I created for this exercise is found [here](https://colab.research.google.com/drive/1a9ZtMX4TGZmAm_ys1MmKQieoCmPG42V1?usp=sharing).
 ** I tend to angle toward prototyping in notebooks or IDEs if one exists for a particular problem set rather than in straight code. I believe this makes the process of thinking and iterating more efficient, by abstracting away library management and anything related to devops as much as possible early in the process, but rather to focus on driving value immediately. Part of the reason why I would select Colab rather than using a Jupyter notebook is because I don't have to worry about setting up a Python environment, or worrying about which Python environment needs to fit later in the Machine Learning pipeline at this stage, it's just straight code.
 2. Do background research, analysis and deeper dive into the data itself to understand to the greatest degree what is contained in the dataset, and decide upon naming conventions. This also involves doing light research on an approach to build an app as I dive into the analysis. This may also involve some back and fourth questions with the team providing the assignment, which may change depending upon the context of who the dataset was sent from, and what the project purpose is. There are always differences in context which dictate how much communication is called for, vs. how much independent work is expected to maximize overall team efficiency.
 3. Examine the output and overall codebase. Review and think about what needs to be done next to meet all of the criteria above.
@@ -160,13 +160,19 @@ This documentation might be appropriate for a longer-term, enhanced version of t
 
 ### Compute Word Embeddings (i.e. word2vec, GloVe, BERT)
 
-[General instructions on how to create word embeddings](https://datascience.stackexchange.com/questions/30516/how-does-one-go-about-feature-extraction-for-training-labelled-tweets-for-sentim) which can roughly be described as follows:
-
-
-
 #### Researching Steps to Compute Word Embeddings
 
+[General instructions on how to create word embeddings](https://datascience.stackexchange.com/questions/30516/how-does-one-go-about-feature-extraction-for-training-labelled-tweets-for-sentim) which can roughly be described as follows:
+
+Word embeddings are essentially different methods of ascribing value to words based upon many various types of algorithms. Some of these algorithms are rudimentary, well understood, and look at the route quantity of words to ascribe importance. Other algorithms are understood and assign weighting, either through decision trees, neural networks or some other methodology. Still other algorithms are actually proprietary black boxes, such as BERT, which has pre-defined inputs and outputs, and while we may not be able to completely reverse-engineer these algorithms yet, they have been ascribed importance by highly influential computing journals and peer reviewed, and so are more or less accepted as gold standards by a community, at least for the purposes of linguistic usage. The philosophy behind being able to use these types of algorithms for more hard empirical science may be suspect, but in the commercial NLP world, often it may be more advantageous to use something based upon reputation and ease of use to go faster to market, rather than worry about deep, costly, empirical research.
+
+After word embeddings are computed into a vector format, they can be handed off to a learning algorithm to use to make predictions.
+
 Basically, several options were suggested by _Company_ as potential ways to get at word embeddings.  Going in any one direction without having much background information on the topic would invite overcomplexity and excess work, so rather than barreling forward at this point, it would be useful to possibly test out and inform myself on what the various types are.
+
+First off, a general definition to word embeddings
+
+> Word embeddings refers to representing words or sentences in a numerical vector form or word embedding opens up the gates to various potential applications. This functionality of encoding words into vectors is a powerful tool for NLP tasks such as calculating semantic similarity between words with which one can build a semantic search engine.
 
 #### Comparative Analysis
 
@@ -194,13 +200,98 @@ Basically, the above table discusses some of the abstract mathematics between va
 * Note, I did find existing CoLab notebooks for [word2vec](https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/text/word2vec.ipynb), [GloVe](https://colab.research.google.com/github/mdda/deep-learning-workshop/blob/master/notebooks/5-RNN/3-Text-Corpus-and-Embeddings.ipynb), and [BERT](https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/bert_finetuning_with_cloud_tpus.ipynb), as well as [TFIDF](https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU).
 
 
-### Bulding Our Own BERT Code
+### Bulding Our Own BERT Code for Calculating Embeddings on Training Data
 
-https://towardsdatascience.com/word-embedding-using-bert-in-python-dd5a86c00342
+We found and reviewed the following articles on BERT embeddings:
 
+* [Using BERT in Python](https://towardsdatascience.com/word-embedding-using-bert-in-python-dd5a86c00342)
+* [Step by Step Implementation of Bert for Text Categorization](https://medium.com/analytics-vidhya/step-by-step-implementation-of-bert-for-text-categorization-task-aba80417bd84)
+* [Illustrated Guide to BERT](http://jalammar.github.io/illustrated-bert/)
 
+...as well as the CoLab notbook linked above.
 
-### Tfidf
+#### Reduction of Data to Golden, Usable Training Dataset
+
+Note: .size() takes into account NaN values, while .count() only counts numbers.
+
+* Count of original dataset, sentimentmix_df is:  3886
+* Count of extracted goldens, sentimentmixgolden_df is:  103
+* Count of non-neutral ratings, sentimentmatrixgoldennonneutral_df is:  58
+* Count of relevant sentimentmatrixgoldennonneutralrelevant_df size is:  57
+
+##### Side Discussion: Is this a Sufficient Dataset Size to Make an Accurate Global Prediction?
+
+The above analysis shows that out of the entire original dataset including 3886 sentiment datapoints, realistically there are only 57 golden sentiment datapoints on which we can make a prediction.
+
+Is this enough?  Given our domain expertise at this point, we can't say. One thing I like to point out when people ask about sufficient data used to create a prediction, is that it important to note that there is no mathematically certifiable way to calculate whether a prediction will be sufficient for any prediction, globally. Often data scientists and scientists in general confuse the concept of, "confidence interval" to mean that a sufficient amount of data must be captured to have, "confidence," with a prediction.  This is not a proper interpretation of, "confidence interval," and more information about the proper interpretation of confidence interval can be found in some of my other writings.
+
+Ultimately, there has to be enough domain expertise to understand and be able to know what a sufficient amount of data will be for a global prediction. While many individuals have put together tutorials on this Apple Twitter dataset, and have demonstrated accurate algorithms within the scope of the project, this is merely fitting the data to the problem itself, basically forcing a fit, which is not true prediction. Anyone can sit and optimize code and force a fit, few can combine expertise and math to optimize real-world results.
+
+As far as our own layperson expertise goes, we can look at our fully cleaned sentiment data, since it only encompasses 57 points, and verify manually fairly quickly whether the data appears to at least be intuitively, "fitting," and not overlapping. This visual inspection showed that what is shown as being a 0 is indeed a negative sentiment toward Apple, and what is shown as being a 1 is a positive sentiment.
+
+![cleaned sentiment analysis](/assets/images/cleanedsentiment.png)
+
+#### Inputting Dataframe into BERT Tokenizer
+
+According to [this article](https://albertauyeung.github.io/2020/06/19/bert-tokenization.html) tokenization can either be done directly within BERT, or with another outside package called, "transformers."  I attempted to run things via BERT, but ran into some errors, so quickly pivoted to transformers and this worked as shown below.
+
+I found this Github gist which shows a [method of how to prepare a Pandas dataseries for BERT Transformers tokenization](https://gist.github.com/akshay-3apr/0a345b4f416051b3676aae31a14bbde2).
+
+Utilizing that as a framework, I wrote my own version using our selected dataset from above, but included the attention mask option, since this was the original interesting thing about BERT. I was unable to figure out how to pull out the attention mask, so for now I'm leaving this as an unknown.
+
+```
+
+## create label and sentence list
+sentences = transformerready_df.text.values
+
+#check distribution of data based on labels
+print("Distribution of data based on labels: ",transformerready_df.sentiment.value_counts())
+
+# Set the maximum sequence length. The longest sequence in our training set is 47, but we'll leave room on the end anyway.
+# In the original paper, the authors used a length of 512.
+MAX_LEN = 512
+
+## Import BERT tokenizer, that is used to convert our text into tokens that corresponds to BERT library
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased',do_lower_case=True)
+# ask tokenizer to encode words
+input_ids = [tokenizer.encode(sent,truncation=True,add_special_tokens=True,max_length=MAX_LEN,pad_to_max_length=True) for sent in sentences]
+labels = transformerready_df.sentiment.values
+
+print("Actual sentence before tokenization, (1): ",sentences[1])
+print("Encoded Input from dataset (1): ",input_ids[1])
+
+print("Actual sentence before tokenization, (2): ",sentences[2])
+print("Encoded Input from dataset (2): ",input_ids[2])
+
+```
+
+This yielded tokenized versions of the sentences in question under 'text'.
+
+### TFIDF
+
+After doing some quick research on the topic, TFIDF refers to []"Term Frequency Inverse Document Frequency"](https://towardsdatascience.com/tf-idf-for-document-ranking-from-scratch-in-python-on-real-world-dataset-796d339a4089).
+
+TF is simply a calculation of the term frequency in a document, whereas IDF is the inverse of the document frequency which measures the informativeness of term t.
+
+```
+df(t) = occurrence of t in documents
+
+idf(t) = N/df
+
+idf(t) = log(N/(df + 1))
+
+tf-idf(t, d) = tf(t, d) * log(N/(df + 1))
+```
+
+Terminologies:
+
+* t — term (word)
+* d — document (set of words)
+* N — count of corpus
+* corpus — the total document set
+
+Of course when calculating TFIDF, there will be certain pre-data cleaning considerations, such as removing special characters and stop-words. For the purposes of this exercise, I am opting not to remove stop words, since the overall analysis that we are using leverages BERT, and it would be a guessing game to know which words BERT considers to be stop words.  We could have removed these stop words manually earlier in the project if we wished, but for simplification purposes, we can ignore stop words and make the assumption that BERT will handle them, even if they won't.
+
 
 [TFIDF](https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU).
 
@@ -210,7 +301,15 @@ https://towardsdatascience.com/word-embedding-using-bert-in-python-dd5a86c00342
 
 * Through researching dataset definitions in an above section, I was actually able to find an entire solution set to this assignment [at this blog here](https://harrisonjansma.com/apple), including tokenization, which already claimed an 89% accuracy using linear model using Logistic Regression, claiming a performance lead over a linear Support Vector Machine model.
 
+#### Above
 
+Compute cosine similarity between encoded vectors.
+
+```
+from sklearn.metrics.pairwise import cosine_similarity
+cos_lib = cosine_similarity(vectors[1,:],vectors[2,:]) #similarity between #cat and dog
+
+```
 
 
 Using features extracted above, we can assign positive and negative values to words.
@@ -269,6 +368,19 @@ https://www.semanticscholar.org/paper/Supervised-Term-Weighting-Metrics-for-Sent
 
 > What right do we have to say that our model actually describes the desires of our customers?
 
+* Linear Regression Assumptions
+
+* What is the sentiment really positive about?
+
+* Even supposudly golden samples can have irregularities, after all this is all originally human input.  Therefore, additional cleaning using uniques needs to be done.
+
+* Size of data - as we reduced down from golden samples and non-neutral samples
+
+Interesting Learnings within this section:
+
+One interesting part of NLP that I learned through this assignment is that within this specific domain, there are already thousands of pre-trained models to perform tasks on texts such as classification, information extraction, question answering, summarization, translation, text generation, in 100+ human languages. This domain has a wide amount of research work pre-completed, and these pretrained models can be found at [Python Transformers](https://pypi.org/project/transformers/).  Transformers integrates with PyTorch and Tensorflow and has ready-made API's.
+
+
 
 ## Issues or Flagged Items for Future Improvement
 
@@ -276,6 +388,7 @@ https://www.semanticscholar.org/paper/Supervised-Term-Weighting-Metrics-for-Sent
 
 * Expanding Regex accuracy for all potential cases.  Essentially, generalizing the Regex according to this [Ruby Gem documentation](https://www.rubydoc.info/gems/twitter-text/1.13.0/Twitter/Regex).
 * Creating a user prompt that allows a data scientist to select which columns they would like to utilize in the creation of a training or performance measuring system, to be able to compare results from different types of inputs and outputs, since it might be unclear which data is considered golden and which is not.
+* Creating extensive lists of stop words, either based upon manual flagging, or gathering them from online and adding them into our models. Certain stop words such as, "a" and "the" might be no-brainers, but this could turn into a more complex project as more stop terms get added.
 
 ### Time Consuming, Expensive Improvements
 
@@ -283,6 +396,7 @@ https://www.semanticscholar.org/paper/Supervised-Term-Weighting-Metrics-for-Sent
 ** Essentially, comparing existing tools and methods against each other to ensure that a particular direction makes sense, performance wise, or at least being able to compare algorithms against each other, within reason and without being overly-obsessive about which precise algorithm selected and whether it provides a relatively small percent performance improvement when measuring input to output efficiency vs. balancing other project needs.
 * Implementing test-driving development, using, "try," and other standard best practices, perhaps writing tests first and then the actual code itself to ensure viability.
 * Getting a better understanding of what system this may be implemented on, what the long-term software architecture may be, and providing for security analysis options and implementation. Some of these may be easy, no-brainers such as using environmental variables tied to a server, but there may also be a full-range of security best practices that could be implemented, depending upon the vulnerability and value of the underlying software in the future.
+* Within a measurement method, compare optional settings against one another and create a decision tree or other uber-algorithm which finds optimal results. For example, with the BERT example used, one could optionally activate the attention mask option or not and see if this makes a difference.
 
 ### More Advanced Improvements
 
@@ -297,3 +411,7 @@ The results show that the manually indicated tokens combined with a Decision Tre
 
 http://mpqa.cs.pitt.edu/
 UPitt Subjectivity Lexicon
+
+http://www.marksanderson.org/publications/my_papers/ADC2014.pdf
+
+https://www.cs.uic.edu/~liub/FBS/NLP-handbook-sentiment-analysis.pdf
