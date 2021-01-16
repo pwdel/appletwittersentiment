@@ -183,7 +183,7 @@ First off, a general definition to word embeddings
 | GN-GloVe                                             | Method  | Gender Neutral Global Vectors - the same as Global Vectors, but eliminates Gender information from the corpus.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Flair Embeddings                                     | Method  | Flair embeddings trained without any explicit notion of words and thus fundamentally model words as sequences of characters and they are contextualized by their surrounding text, meaning that the same word will have different embeddings depending on its contextual use.                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Allen NLP's ELMo                                     | Method  | Character-level tokens are taken as the inputs to a bi-directional LSTM which produces word-level embeddings. Like BERT (but unlike the word embeddings produced by "Bag of Words" approaches, and earlier vector approaches such as Word2Vec and GloVe ), ELMo embeddings are context-sensitive, producing different representations for words that share the same spelling but have different meanings (homonyms) such as "bank" in "river bank" and "bank balance"                                                                                                                                                                                                                                  |
-| BERT                                                 | Method  | BERT is not fully understood, as it appears to be proprietary to Google, however it appears to use a Transformer method, as opposed to a RNN method such as LSTM, which is a similar methodology used by GPT. Uses RNN's combined with an attention mechanism, which stores and propagates relevant information down the sequential chain of events within the RNN to the last node. Unlike RNNs, Transformers do not require that the sequential data be processed in order. For example, if the input data is a natural language sentence, the Transformer does not need to process the beginning of it before the end.This allows for greater parallelization and therefore shorter training times. |
+| BERT                                                 | Method  | BERT is not fully understood, as it appears to be proprietary to Google, however it appears to use a Transformer method, as opposed to a RNN method such as LSTM, which is a similar methodology used by GPT. BERT relies on massive compute for pre-training ( 4 days on 4 to 16 Cloud TPUs; pre-training on 8 GPUs would take 40–70 days i.e. is not feasible. BERT fine tuning tasks also require huge amounts of processing power, which makes it less attractive and practical for all but very specific tasks. Typical uses would be fine tuning BERT for a particular task or for feature extraction. Uses RNN's combined with an attention mechanism, which stores and propagates relevant information down the sequential chain of events within the RNN to the last node. Unlike RNNs, Transformers do not require that the sequential data be processed in order. For example, if the input data is a natural language sentence, the Transformer does not need to process the beginning of it before the end.This allows for greater parallelization and therefore shorter training times. |
 | fastText                                             | Library | fastText is a library for learning of word embeddings and text classification created by Facebook's AI Research (FAIR) lab. The model allows one to create an unsupervised learning or supervised learning algorithm for obtaining vector representations for words. The library was generated via Neural Network methods.                                                                                                                                                                                                                                                                                                                                                                             |
 | Gensim                                               | Library | Gensim is an open source library. Gensim includes streamed parallelized implementations of fastText, word2vec and doc2vec algorithms, as well as latent semantic analysis (LSA, LSI, SVD), non-negative matrix factorization (NMF), latent Dirichlet allocation (LDA), tf-idf and random projections.                                                                                                                                                                                                                                                                                                                                                                                                  |
 | Indra                                                | Library | Indra is an efficient library and service to deliver word-embeddings and semantic relatedness to real-world applications in the domains of machine learning and natural language processing. It offers 60+ pre-build models in 15 languages and several model algorithms and corpora. Indra is powered by spotify-annoy delivering an efficient approximate nearest neighbors  function.                                                                                                                                                                                                                                                                                                               |
@@ -271,16 +271,29 @@ This yielded tokenized versions of the sentences in question under 'text'.
 
 After doing some quick research on the topic, TFIDF refers to []"Term Frequency Inverse Document Frequency"](https://towardsdatascience.com/tf-idf-for-document-ranking-from-scratch-in-python-on-real-world-dataset-796d339a4089).
 
-TF is simply a calculation of the term frequency in a document, whereas IDF is the inverse of the document frequency which measures the informativeness of term t.
+TF is simply a calculation of the term frequency in a document, whereas IDF is the inverse of the document frequency which measures the informativeness of term t.  A generalized formatting of the mathematics behind TFIDF is shown below:
 
 ```
+tf(t,d) = count of t in d / number of words in d
+
 df(t) = occurrence of t in documents
 
+Inverse of that document set N divided by occurrence of t in documents
+
 idf(t) = N/df
+
+During the query time, when a word which is not in vocab occurs, the df will be 0. As we cannot divide by 0, we smoothen the value by adding 1 to the denominator.  So basically, the size of the text is logarithmicly proportional to the occurrence of the term in all texts. The size of the total text in all documents matters, "more" weighted against the number of occurrences of a word. This gets normalized against the number of times a term occurs in a given document.
+
+So essentially, the word, "love" may occur a lot in one Sonnet by Shakespeare, and a Sonnet is relatively small, so it gains a high relative importance. However if you consider all of the plays ever written by Shakespeare, "love" may occur very frequently, but the importance shrinks logarithmically. Basically terms which are not super common across an entire body of work and only show up on a page here and there get, "smoothed out," whereas domain-specific terms that occur again and again across a large amount of text percolate out to the top.
 
 idf(t) = log(N/(df + 1))
 
 tf-idf(t, d) = tf(t, d) * log(N/(df + 1))
+
+Ultimately,
+
+TF-IDF = Term Frequency (TF) * Inverse Document Frequency (IDF)
+
 ```
 
 Terminologies:
@@ -292,8 +305,56 @@ Terminologies:
 
 Of course when calculating TFIDF, there will be certain pre-data cleaning considerations, such as removing special characters and stop-words. For the purposes of this exercise, I am opting not to remove stop words, since the overall analysis that we are using leverages BERT, and it would be a guessing game to know which words BERT considers to be stop words.  We could have removed these stop words manually earlier in the project if we wished, but for simplification purposes, we can ignore stop words and make the assumption that BERT will handle them, even if they won't.
 
+While the above article is very detailed and interesting, and provides a good reference, for the purposes of this assignment we just want a general count of TFIDF, which can be established by the following code, from this [Stackoverflow](https://stackoverflow.com/questions/37593293/how-to-get-tfidf-with-pandas-dataframe), leveraging sklearn.
 
-[TFIDF](https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU).
+```
+from sklearn.feature_extraction.text import TfidfVectorizer
+v = TfidfVectorizer()
+x = v.fit_transform(df['sent'])
+```
+
+From here we can visualize our TFDIF using PCA, per this [Stackoverflow inquiry](https://stackoverflow.com/questions/28160335/plot-a-document-tfidf-2d-graph).  
+
+> When you use Bag of Words, each of your sentences gets represented in a high dimensional space of length equal to the vocabulary. If you want to represent this in 2D you need to reduce the dimension, for example using PCA with two components:
+
+Upon working out our vector with the code above, we get a
+
+```
+<57x427 sparse matrix of type '<class 'numpy.float64'>' with 710 stored elements in Compressed Sparse Row format>
+```
+
+With head values:
+
+```
+(0, 302)	0.4857309068059386
+  (0, 103)	0.4086390353893864
+  (0, 346)	0.4857309068059386
+  (0, 25)	0.4086390353893864
+```
+
+This is a sparse matrix, visualizing in a plot looks like the following:
+
+![sparce matrix](/assets/images/sparcematrix.png)
+
+The bag of words method is not necessarily relevant to our above BERT analysis, however if done previous to our BERT, it could provide some clues on which words to poentially filter out before tokenizing with BERT.
+
+We could also reference this Google CoLab notebook on [TFIDF](https://colab.research.google.com/drive/1h6Jpgcdv2kB07zkcLKFpFM9xsSiZE9pU).
+
+#### Pulling out Cosine similarity
+
+The assignment requested TFIDF, ultimately what is likely being asked for is a demonstration of the relationship between items.  TFIDF is a form of relationship representation, through logarithmic proportion (which, a ratio can be considered a kind of distance or one-dimensional measurement).  The vectors from BERT represent where the words are encoded in the 1024-dimensional hyperspace (1024 for this model uncased_L-24_H-1024_A-16) per [this article](https://towardsdatascience.com/word-embedding-using-bert-in-python-dd5a86c00342). Ultimately those vectors can have cosine distance computed against one another, which would be the analogy to TFIDF in the bag of words model.
+
+To calculate those cosine similarities, we would use the following type of code, though we did not doe this for the assignment:
+
+```
+from sklearn.metrics.pairwise import cosine_similarity
+cos_lib = cosine_similarity(vectors[1,:],vectors[2,:]) #similarity between #cat and dog
+
+```
+
+#### Fine Tuning Bert Models
+
+
 
 ### Train Classifier to Predict the 'Sentiment' Class
 
@@ -303,13 +364,31 @@ Of course when calculating TFIDF, there will be certain pre-data cleaning consid
 
 #### Above
 
-Compute cosine similarity between encoded vectors.
+```
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+X = df[['text', 'sentiment:confidence']]
+y = df['sentiment']
+
+#splitting data for cross validation of model
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,shuffle=False)
+
+#Keeping the assignment confidence for later
+X_train_conf, X_test_conf = X_train['sentiment:confidence'], X_test['sentiment:confidence']
+X_train, X_test = X_train['text'], X_test['text']
+
+#saving to csv
+X_train.to_csv('train_clean.csv')
+X_test.to_csv('test_clean.csv')
+y_train.to_csv('y_train.csv')
+y_test.to_csv('y_test.csv')
+
+print(X_train[:5])
 
 ```
-from sklearn.metrics.pairwise import cosine_similarity
-cos_lib = cosine_similarity(vectors[1,:],vectors[2,:]) #similarity between #cat and dog
 
-```
+
 
 
 Using features extracted above, we can assign positive and negative values to words.
