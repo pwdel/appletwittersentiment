@@ -12,3 +12,10 @@ Apple Twitter Sentiment Analysis Project
 8. [API](/readmsesections/API.md) - Pseudocode, Working with Saved Machine Learning Model, Input and Output Functions, Jsonification
 9. [Discussion](/readmesections/Discussion.md) - Various points of discussion on the assignment.
 10. [Future Improvement](/readmesections/FutureImprovement.md) - Simpler improvements, more expensive improvements and advanced improvement ideas.
+
+| Section                                 | Description                                         |
+|-----------------------------------------|-----------------------------------------------------|
+| [Overview](/readmesections/Overview.md) | Project Objective, My Background, My Plan of Attack |
+|                                         |                                                     |
+|                                         |                                                     |
+|                                         |                                                     |
