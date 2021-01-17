@@ -2,59 +2,7 @@
 
 Apple Twitter Sentiment Analysis Project
 
-## Meta Objective
-
-* The objective of this report is to clearly and concisely document my thoughts working on, "The Apple Computers Twitter Sentiment dataset," [project assignment](/assets/assignment/assignment.md).
-* This work is being documented under [Tom Preston Warner's README driven development](https://tom.preston-werner.com/2010/08/23/readme-driven-development.html) methodology.
-
-## Project Objective
-
-* Create a machine learning pipeline, train a model and optionally stand-it up for inference.
-* Demonstrate your ability to create a machine learning pipeline, train a model and optionally stand-it up for inference.
-* Allow _Company_ to understand the process of how I piece all of these components together and what steps I take to ensure accuracy.
-
-## My Background
-
-* I have not ever performed any kind of sentiment analysis previously.  I am vaguely familiar with the mathematics from having watched conference talks, but in essence have no idea what I'm doing.
-* My main languages in order of skill are Matlab, Python and Ruby.  My initial thought is that Python is the way to go here, though the work statement mentions, "use any language you are comfortable with."  This is based upon apriori knowledge of the team's tech stack using Python.  
-** Ruby: I could do a short analysis of how feasible this would be, and how one would go about building this in Ruby.
-** Matlab: From a quick review, Matlab appears to have the greatest amount of documentation and prebuilt, ready-to-go framework around many facets of textual analysis including sentiment analysis, as it does with most things, but Matlab is not a deployable platform per se, not open source, expensive, and plugins or "toolboxes" as they call them, are an additional expense.  Matlab can be considered more of a research tool.
-* I am not familiar with any of the standard plugins used in sentiment analysis via Python.
-
-## My Plan of Attack
-
-The first general rule for building anything at all is to understand its utility. In this case, I wanted to first understand as much as I could, within reason, about the, "why," behind this project. My career history includes a decent amount of sales, business development and tech community organizing, so typically my first approach to any project is to try to see what the, "why behind the why," might be for a particular customer or stakeholder request.  So, I asked to see if there were any additional considerations:
-
-![01](/assets/images/01.png)
-
-Of course, I didn't want to get too deep into the weeds, since this is after all - a part of a job interview process. The best approach is most likely to demonstrate directly what is being asked, which was as follows:
-
-> The final result should be a Python script that we can run locally to replicate your work. We would like to be able to understand your approach to training the model as well as the steps you take to achieve the best accuracy of the model.  Once you complete the assignment, please send it back to _NAME_ (_NAME_@company.com) with any instructions on how to run the script. If you advance to the on-site interview, we’ll ask you to give a short presentation about your approach and other techniques you would have tried if you had more time.
-
-Further to this, it was specified that:
-
-> Even though at _Company_ we dedicate a lot of effort to making our ML models as accurate as possible, for this assignment we are most interested in the process of how you piece all of these components together.
-
-So given all of the above, and my background, I decided upon the following approach to building something out:
-
-1. Use [Google CoLab](https://colab.research.google.com/) to quickly attempt to build something that barely works within as short of a time as possible.  The notebook I created for this exercise is found [here](https://colab.research.google.com/drive/1a9ZtMX4TGZmAm_ys1MmKQieoCmPG42V1?usp=sharing).
-** I tend to angle toward prototyping in notebooks or IDEs if one exists for a particular problem set rather than in straight code. I believe this makes the process of thinking and iterating more efficient, by abstracting away library management and anything related to devops as much as possible early in the process, but rather to focus on driving value immediately. Part of the reason why I would select Colab rather than using a Jupyter notebook is because I don't have to worry about setting up a Python environment, or worrying about which Python environment needs to fit later in the Machine Learning pipeline at this stage, it's just straight code.
-2. Do background research, analysis and deeper dive into the data itself to understand to the greatest degree what is contained in the dataset, and decide upon naming conventions. This also involves doing light research on an approach to build an app as I dive into the analysis. This may also involve some back and fourth questions with the team providing the assignment, which may change depending upon the context of who the dataset was sent from, and what the project purpose is. There are always differences in context which dictate how much communication is called for, vs. how much independent work is expected to maximize overall team efficiency.
-3. Examine the output and overall codebase. Review and think about what needs to be done next to meet all of the criteria above.
-4. Iterate and build and deploy in a dockerized format, per the assignment request.
-5. Refine the above according to anything thought provoking that I may think of or come across along the way.
-6. Write up the report within the README file. Throughout the above, take notes on ideas for improvements in the README file and update as we progress.
-
-Any of the above steps may happen at any time, the above is not necessarily a sequential process, but more of a general leaning.
-
-## Building the Prototype
-
-* In this step, I opted to use Google CoLab.  There is one perhaps slightly annoying devops-related setup step in using CoLab, in that you have to authenticate a Google API Python Client to be able to perform basic Google Drive API tasks within CoLab, including accessing our CSV file.
-
-![installing pydrive](/assets/images/installing-pydrive.png)
-
-* I'm opting out of test based development at this point. The objective is quality of analysis and speed of development time.
-* In addition to PyDrive being installed, any files that we read from on Drive itself must be open and shared with the world, at least in non-GSuite instances of this methodology, which in a normal production environment pose a security risk, akin to the all-too common unsecured public S3 bucket.
+1. [Overview](/assets/readmesections/Overview.md) - Project Objective, My Background, My Plan of Attack
 
 ## Requested Steps from Work Assignment
 ### Reading the Dataset into Memory
@@ -229,6 +177,8 @@ Ultimately, there has to be enough domain expertise to understand and be able to
 
 As far as our own layperson expertise goes, we can look at our fully cleaned sentiment data, since it only encompasses 57 points, and verify manually fairly quickly whether the data appears to at least be intuitively, "fitting," and not overlapping. This visual inspection showed that what is shown as being a 0 is indeed a negative sentiment toward Apple, and what is shown as being a 1 is a positive sentiment.
 
+With some cursory reading on the topic, [this article mentions](https://towardsdatascience.com/latent-semantic-analysis-sentiment-classification-with-python-5f657346f6a3) that an accurate model would require between 10,000 and 30,000 features to train a decently accurate model using the TFIDF method.
+
 ![cleaned sentiment analysis](/assets/images/cleanedsentiment.png)
 
 #### Inputting Dataframe into BERT Tokenizer
@@ -354,7 +304,7 @@ cos_lib = cosine_similarity(vectors[1,:],vectors[2,:]) #similarity between #cat 
 
 #### Fine Tuning Bert Models
 
-
+Training a BERT model is known as, "Fine Tuning," since technically BERT is already trained on a massive Google dataset, and we as users are really just modifying a highly expensive training dataset output for our own use. Fine Tuning BERT models, which is really what is needed to come up with a superior result, is considerably complicated and so I will revert back to classical logistic regression and tokenization methods for the remainder of this assignment, though I understand it is not optimal in terms of accuracy.
 
 ### Train Classifier to Predict the 'Sentiment' Class
 
@@ -364,12 +314,17 @@ cos_lib = cosine_similarity(vectors[1,:],vectors[2,:]) #similarity between #cat 
 
 #### Above
 
+We used the above linear regression model to extract features from our previously generated, small golden dataset.
+
 ```
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-X = df[['text', 'sentiment:confidence']]
-y = df['sentiment']
+s1 = transformerready_df['text']
+s2 = sentimentmatrixgoldennonneutralrelevant_df['sentiment:confidence']
+
+X = pd.concat([s1,s2], axis=1)
+y = transformerready_df['sentiment']
 
 #splitting data for cross validation of model
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,shuffle=False)
@@ -388,38 +343,133 @@ print(X_train[:5])
 
 ```
 
+We then built a linear model with sklearn LogisticRegression, as shown below.
 
+```
+from sklearn.linear_model import LogisticRegressionCV
 
+logr = LogisticRegressionCV()
+logr.fit(X_train_tfidf, y_train)
+y_pred_logr = logr.predict(X_test_tfidf)
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import Pipeline
 
-Using features extracted above, we can assign positive and negative values to words.
+clf = SVC(class_weight = 'balanced')
+pipe = Pipeline([('classifier', clf)])
+fit_params = {'classifier__kernel':['rbf', 'linear', 'poly'],
+          'classifier__degree':[2, 3, 4],
+          'classifier__C':[0.01, 0.1, 1, 10]}
 
-Is there a ready made database of positive and negative words which may already exist within our text?
+gs = GridSearchCV(pipe, fit_params, cv = 10, return_train_score = True)
+gs.fit(X_train_tfidf, y_train)
 
+print('Best performing classifier parameters (score {}):\n{}'.format(gs.best_score_, gs.best_params_))
 
+pipe.set_params(classifier__degree = gs.best_params_['classifier__degree'],
+                classifier__kernel = gs.best_params_['classifier__kernel'],
+               classifier__C = gs.best_params_['classifier__C'])
+pipe.fit(X_train_tfidf, y_train)
+y_pred = pipe.predict(X_test_tfidf)
+```
 
-
-
-https://github.com/apmoore1/SentiLexTutorial
-
-https://github.com/apmoore1/SentiLexTutorial/blob/master/Tutorial.ipynb
-
-Paper:
-
-https://www.aclweb.org/anthology/D16-1057/
-
-Twitter Specific paper
-
-http://www.marksanderson.org/publications/my_papers/ADC2014.pdf
+![Most Important Words Analysis](/assets/images/positivenegativecounts.png)
 
 ### Save the Model To Some Format For Scoring
 
+Scoring is the process of applying an algorithmic model built from a historical dataset to a new dataset in order to uncover practical insights that will help solve a business problem, basically, "saving the model." The word, "scoring" is used in the sense of scoring a piece of metal to mark a future cut or drill, basically creating a future hopefully repetitive model.
+
+```
+# We had developed the above model fit as follows:
+# logr = LogisticRegressionCV()
+# logr.fit(X_train_tfidf, y_train)
+
+# import joblib, used for scoring
+from sklearn.externals import joblib
+# use joblib.dump to dump the model into a .pkl file type
+joblib.dump(logr, 'model.pkl')
+```
+
+The Logistic Regression model is now persisted. You can load this model into memory with a single line of code. Loading the model back into your workspace is known as Deserialization.
+
+We save our model.pkl to Google Drive as follows:
+
+```
+# Save this file to Google Drive
+
+folder_id = "1WicGkBotOouPvv4pwAk1Frfj7xFOwKG4"
+
+# get the folder id where you want to save your file
+file = drive.CreateFile({'parents':[{u'id': folder_id}]})
+file.SetContentFile('model.pkl')
+file.Upload()
+```
+
+![Model Saving Location on Google Drive](/assets/images/savingmodel.png)
+
 ### Stand Up API Service That Has Inputs and Outputs
+
+I found this article on [Turning Machine Learning Models into APIs in Python](https://www.datacamp.com/community/tutorials/machine-learning-models-api-python), to get a general idea about how to approach this.  According to this tutorial, I should use Flask to stand up an API. [I have used Flask before](https://www.patdel.com/home-data-flask-app/) to build a web application and know that it is time-consuming.
+
+However, pieces of this article were useful to build the API, including how scoring was accomplished above.
+
+#### Pseudocode for API Service
+
+0. Load Machine Learning Model into Memory
+1. Ask for input text, 280 characters or less, restrict input.
+2. Vectorize function which takes that input text and vectorizes it.
+3. Prediction function which takes the vectorized object and applies the machine learning model to it, outputting a prediction and probability.
+4. API function which turns the prediction result and probability result into a json object.
+5. Print or output Json object to terminal including result.
+
+#### Notes on Above Process
+
+##### Load Machine Learning Model into Memory
+
+After loading the model.pkl file into memory, I printed it out to see what it might look like, and it showed the following:
+
+```
+LogisticRegressionCV(Cs=10, class_weight=None, cv=None, dual=False,
+                     fit_intercept=True, intercept_scaling=1.0, l1_ratios=None,
+                     max_iter=100, multi_class='auto', n_jobs=None,
+                     penalty='l2', random_state=None, refit=True, scoring=None,
+                     solver='lbfgs', tol=0.0001, verbose=0)
+```
+
+To get a better understanding of what this means, and to be able to work with it more thouroughly I [looked here at LogisticRegressionCV Documentation](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegressionCV.html). The, "CV," here stands for, "Cross Validation."
+
+Logistic regression is a classification approach for different classes of data in order to predict whether a data point belongs to one class or another. Sigmoid hypothesis function is used to calculate the probability of y belonging to a particular class. Training data is normalized using Zscore.
+
+![Logistic Regression Example](/assets/images/logistiregression.png)
+
+To get a better idea of the definitions contained:
+
+* Cs - Each of the values in Cs describes the inverse of regularization strength. If Cs is as an int, then a grid of Cs values are chosen in a logarithmic scale between 1e-4 and 1e4. Like in support vector machines, smaller values specify stronger regularization.
+* class_weight
+* cv
+* dual
+* fit_intercept - Specifies if a constant (a.k.a. bias or intercept) should be added to the decision function.
+* intercept_scaling
+* l1_ratios
+* max_iter
+* multi_class
+* n_jobs
+* penalty
+* random_state
+* refit
+* scoring
+* solver
+* tol
+* verbose
 
 #### Input: Plain Text
 
+
+
 #### Output: Prediction of Sentiment & Probability of Prediction
 
-
+* get_dummies - Turn a categorical variable into a series of zeros and ones, which makes them a lot easier to quantify and compare.
+* pandas.DataFrame.reindex - Conform Series/DataFrame to new index with optional filling logic
 
 ### Model Deployment
 
@@ -459,8 +509,6 @@ Interesting Learnings within this section:
 
 One interesting part of NLP that I learned through this assignment is that within this specific domain, there are already thousands of pre-trained models to perform tasks on texts such as classification, information extraction, question answering, summarization, translation, text generation, in 100+ human languages. This domain has a wide amount of research work pre-completed, and these pretrained models can be found at [Python Transformers](https://pypi.org/project/transformers/).  Transformers integrates with PyTorch and Tensorflow and has ready-made API's.
 
-
-
 ## Issues or Flagged Items for Future Improvement
 
 ### Simpler Improvements (Grunt Coding Work)
@@ -468,6 +516,7 @@ One interesting part of NLP that I learned through this assignment is that withi
 * Expanding Regex accuracy for all potential cases.  Essentially, generalizing the Regex according to this [Ruby Gem documentation](https://www.rubydoc.info/gems/twitter-text/1.13.0/Twitter/Regex).
 * Creating a user prompt that allows a data scientist to select which columns they would like to utilize in the creation of a training or performance measuring system, to be able to compare results from different types of inputs and outputs, since it might be unclear which data is considered golden and which is not.
 * Creating extensive lists of stop words, either based upon manual flagging, or gathering them from online and adding them into our models. Certain stop words such as, "a" and "the" might be no-brainers, but this could turn into a more complex project as more stop terms get added.
+* Add confusion matrix, Distributions of Predictions and ROC Curve.
 
 ### Time Consuming, Expensive Improvements
 
@@ -476,6 +525,7 @@ One interesting part of NLP that I learned through this assignment is that withi
 * Implementing test-driving development, using, "try," and other standard best practices, perhaps writing tests first and then the actual code itself to ensure viability.
 * Getting a better understanding of what system this may be implemented on, what the long-term software architecture may be, and providing for security analysis options and implementation. Some of these may be easy, no-brainers such as using environmental variables tied to a server, but there may also be a full-range of security best practices that could be implemented, depending upon the vulnerability and value of the underlying software in the future.
 * Within a measurement method, compare optional settings against one another and create a decision tree or other uber-algorithm which finds optimal results. For example, with the BERT example used, one could optionally activate the attention mask option or not and see if this makes a difference.
+* Fine tuning a BERT model for this application based upon the vectors we extracted.
 
 ### More Advanced Improvements
 
@@ -494,3 +544,16 @@ UPitt Subjectivity Lexicon
 http://www.marksanderson.org/publications/my_papers/ADC2014.pdf
 
 https://www.cs.uic.edu/~liub/FBS/NLP-handbook-sentiment-analysis.pdf
+
+
+https://github.com/apmoore1/SentiLexTutorial
+
+https://github.com/apmoore1/SentiLexTutorial/blob/master/Tutorial.ipynb
+
+Paper:
+
+https://www.aclweb.org/anthology/D16-1057/
+
+Twitter Specific paper
+
+http://www.marksanderson.org/publications/my_papers/ADC2014.pdf
