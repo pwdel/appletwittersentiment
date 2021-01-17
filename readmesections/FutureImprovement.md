@@ -24,4 +24,14 @@
 * Gaining a better, contextual understanding of what the IT and security needs of the overall organization are, and creating security standards and protocols for software that we may design to integrate with larger systems.
 * Creating a formalized documentation, comment protocol and standard software design practice project document to keep code clean, nice and understandable going forward.
 
+<hr>
+
+* Ultimately, the holy grail of any machine learning system is the creation of a feedback loop which expands a system's capability to improve its performance. This is something I have written about in a blog post and a [paper on clustering for the improvement of marketing funnels which can be found here](https://www.patdel.com/video-views-marketing-funnels/). In the context of Semantic Analysis, this would arguably include creating a way to continuously expand the vocabulary of a system, by 1. Introducing new vocabulary into a database or, "corpus of text." 2. Continuously improving the number of golden samples in that database by introducing a system for human review of each incoming Tweet. 3. Updating a learning model based upon filtered, golden samples. 4. Scoring that updated model, and introducing the newly scored model into the API.
+
+Overall, this would form a feedback loop, as I have written about previously in the above-linked paper.
+
+![feedback Loop](/assets/images/feedbackloop.png)
+
+
+
 [Back to Main](/README.md/)

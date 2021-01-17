@@ -2,6 +2,10 @@
 
 Apple Twitter Sentiment Analysis Project
 
+## Overall Narrative of Project
+
+The following table provides links to readme files narrating various aspects of the project and explaining my thought process and rationale as I worked through everything.
+
 | Section                                                                | Description                                                                                                                                                                |
 |------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Overview](/readmesections/Overview.md)                                | Project Objective, My Background, My Plan of Attack                                                                                                                        |
@@ -14,3 +18,5 @@ Apple Twitter Sentiment Analysis Project
 | [API](/readmsesections/API.md)                                         | Pseudocode, Working with Saved Machine Learning Model, Input and Output Functions, Jsonification                                                                           |
 | [Discussion](/readmesections/Discussion.md)                            | Various points of discussion on the assignment.                                                                                                                            |
 | [Future Improvement](/readmesections/FutureImprovement.md)             | Simpler improvements, more expensive improvements and advanced improvement ideas.                                                                                          |
+
+## Instructions for Getting App going

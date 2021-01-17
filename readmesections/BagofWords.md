@@ -67,6 +67,12 @@ pipe.fit(X_train_tfidf, y_train)
 y_pred = pipe.predict(X_test_tfidf)
 ```
 
+From this model, we can take a look at what the top negative sentiment and positive sentiment words were, in histogram format:
+
 ![Most Important Words Analysis](/assets/images/positivenegativecounts.png)
+
+We can also plot a 2D visual of word frequencies, categorized by positive and negative. Note that our dataset is fairly sparse compared to existing blog posts utilizing this dataset.
+
+![Word Frequencies](/assets/images/wordfrequencies.png)
 
 [Back to Main](/README.md/)
