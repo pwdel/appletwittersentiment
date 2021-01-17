@@ -53,3 +53,5 @@ Any of the above steps may happen at any time, the above is not necessarily a se
 
 * I'm opting out of test based development at this point. The objective is quality of analysis and speed of development time.
 * In addition to PyDrive being installed, any files that we read from on Drive itself must be open and shared with the world, at least in non-GSuite instances of this methodology, which in a normal production environment pose a security risk, akin to the all-too common unsecured public S3 bucket.
+
+[Back to Main](/README.md/)
