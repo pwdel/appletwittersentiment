@@ -115,8 +115,6 @@ corpus = [
 
 ```
 
-
-
 ![Model Saving Location on Google Drive](/assets/images/savingmodel.png)
 
 ### Evaluating the Linear Regression Approach
@@ -130,7 +128,7 @@ https://machinelearningmastery.com/deep-learning-bag-of-words-model-sentiment-an
 
 > It is important to define a vocabulary of known words when using a bag-of-words model. The more words, the larger the representation of documents, therefore it is important to constrain the words to only those believed to be predictive. This is difficult to know beforehand and often it is important to test different hypotheses about how to construct a useful vocabulary. We have already seen how we can remove punctuation and numbers from the vocabulary in the previous section. We can repeat this for all documents and build a set of all known words. We can develop a vocabulary as a Counter, which is a dictionary mapping of words and their count that allows us to easily update and query.
 
-
+### Exporting a Vocab List
 
 
 

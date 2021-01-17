@@ -8,7 +8,7 @@
 
 #### Pivoting to Linear Regression, Bag of Words Model
 
-We used the above linear regression model to extract features from our previously generated, small golden dataset.
+We used the above linear regression model to extract features from our previously generated, small golden dataset.  
 
 ```
 from sklearn.model_selection import train_test_split
@@ -26,12 +26,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,shuffl
 #Keeping the assignment confidence for later
 X_train_conf, X_test_conf = X_train['sentiment:confidence'], X_test['sentiment:confidence']
 X_train, X_test = X_train['text'], X_test['text']
-
-#saving to csv
-X_train.to_csv('train_clean.csv')
-X_test.to_csv('test_clean.csv')
-y_train.to_csv('y_train.csv')
-y_test.to_csv('y_test.csv')
 
 print(X_train[:5])
 
@@ -78,5 +72,40 @@ Also notable is that the term, "apple" was considered negative, while, "appl," t
 We can also plot a 2D visual of word frequencies, categorized by positive and negative. Note that our dataset is fairly sparse compared to existing blog posts utilizing this dataset.
 
 ![Word Frequencies](/assets/images/wordfrequencies.png)
+
+#### Removing Stopwords
+
+Since we have found from the above that our model will likely, intuitively not be of very high quality due to the high number of stop words used, it's necessary to come up with a way of removing stopwords. Of course we may not have found that we have a lot of stop words until this point in the analysis, after our, "most popular words," were already identified, but it will be necessary to go back to the original, preprocessed tweets and do additional processing to ensure that
+
+```
+pos_tweets = [('I love this car', 'positive'),
+    ('This view is amazing', 'positive'),
+    ('I feel great this morning', 'positive'),
+    ('I am so excited about the concert', 'positive'),
+    ('He is my best friend', 'positive')]
+
+test = pd.DataFrame(pos_tweets)
+test.columns = ["tweet","class"]
+test["tweet"] = test["tweet"].str.lower().str.split()
+
+from nltk.corpus import stopwords
+stop = stopwords.words('english')
+```
+Suggests using list comprehension as a method to remove stopwords in a Pandas dataframe.  At the point of writing this analysis, it is reasonable to think that we could write code to perform the same list comprehension on our tokenized list as well.
+
+```
+test['tweet'].apply(lambda x: [item for item in x if item not in stop])
+
+# yields:
+
+0               [love, car]
+1           [view, amazing]
+2    [feel, great, morning]
+3        [excited, concert]
+4            [best, friend]
+```
+
+### Our Code
+
 
 [Back to Main](/README.md/)

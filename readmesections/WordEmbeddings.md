@@ -92,4 +92,8 @@ This yielded tokenized versions of the sentences in question under 'text'.
 
 Training a BERT model is known as, "Fine Tuning," since technically BERT is already trained on a massive Google dataset, and we as users are really just modifying a highly expensive training dataset output for our own use. Fine Tuning BERT models, which is really what is needed to come up with a superior result, is considerably complicated and so I will revert back to classical logistic regression and tokenization methods for the remainder of this assignment, though I understand it is not optimal in terms of accuracy.
 
+#### Performing Word Embeddings Using Bag of Words Method
+
+Basically, we pivot to the Bag of Words model and cover how Word Embeddings are now calculated under, [Learning Model Creation through Bag of Words](readmesections/BagofWords.md)
+
 [Back to Main](/README.md/)
