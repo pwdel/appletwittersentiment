@@ -2,7 +2,7 @@
 
 Apple Twitter Sentiment Analysis Project
 
-1. [Overview](/assets/readmesections/Overview.md) - Project Objective, My Background, My Plan of Attack
+1. [Overview](/readmesections/Overview.md) - Project Objective, My Background, My Plan of Attack
 
 ## Requested Steps from Work Assignment
 ### Reading the Dataset into Memory
