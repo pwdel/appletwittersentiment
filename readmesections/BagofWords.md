@@ -105,7 +105,27 @@ test['tweet'].apply(lambda x: [item for item in x if item not in stop])
 4            [best, friend]
 ```
 
-### Our Code
+### Our Code to Remove Stopwords:
+```
+#Importing StopWords
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stop = stopwords.words('english')
+
+transformerready_df['nonstopwords_text'] = transformerready_df['text'].apply(lambda x: [item for item in x.split() if item not in stop])
+
+```
+
+![Non Stop Words Column Added](/assets/images/nonstopwords.png)
+
+
+After removing stopwords, and also forcing lowercase for all words, we were able to create a vector which had seemingly better results, based upon a review of the top 10 most important words. The graph of word frequencies  also looked a bit more sensible:
+
+![Improved Top Words](/assets/images/improvedtopwords.png)
+![Improved Word Frequencies](/assets/images/improvedwordfrequencies.png)
+
+
 
 
 [Back to Main](/README.md/)
