@@ -9,6 +9,6 @@ Apple Twitter Sentiment Analysis Project
 5. [TFIDF](/readmsesections/TFIDF.md) - Discussion and calculation.
 6. [Train Model Using Bag of Words Method](/readmesections/BagofWords.md) - Training and evaluating model.
 7. [Scoring](/readmesections/Scoring.md) - Saving the trained model for usage in an API.
-8. [API](/readmsesections/API.md) -
-9. [Discussion](/readmesections/Discussion.md) -
-10. [Future Improvement](/readmesections/FutureImprovement.md)
+8. [API](/readmsesections/API.md) - Pseudocode, Working with Saved Machine Learning Model, Input and Output Functions, Jsonification
+9. [Discussion](/readmesections/Discussion.md) - Various points of discussion on the assignment.
+10. [Future Improvement](/readmesections/FutureImprovement.md) - Simpler improvements, more expensive improvements and advanced improvement ideas.
