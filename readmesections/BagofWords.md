@@ -71,6 +71,10 @@ From this model, we can take a look at what the top negative sentiment and posit
 
 ![Most Important Words Analysis](/assets/images/positivenegativecounts.png)
 
+Note in the above that both the, "Negative Sentiment" words and "Positive Sentiment," words include a number of stop words, with Negative being, "you, this, me, my, on, and, why, an" - with only, "apple, fucking" being clearly unique terms. Likewise, "Positive Sentiment" words include, "all, for" with unique words clearly indidcating positive sentiment including, " king, love, top, tablets" and more questionable words including, "cnbctv, appl, applewatch."
+
+Also notable is that the term, "apple" was considered negative, while, "appl," the stock term, was considered positive. Presumably, there might be some sort of stock pumping going on. This is an example of where subject matter expertise around the topic at hand can be important to understand, "true sentiment," vs. "self-optimized sentiment."
+
 We can also plot a 2D visual of word frequencies, categorized by positive and negative. Note that our dataset is fairly sparse compared to existing blog posts utilizing this dataset.
 
 ![Word Frequencies](/assets/images/wordfrequencies.png)

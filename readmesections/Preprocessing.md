@@ -33,4 +33,9 @@ With some cursory reading on the topic, [this article mentions](https://towardsd
 
 ![cleaned sentiment analysis](/assets/images/cleanedsentiment.png)
 
+Beyond using regex functions, there is also the problem of stopwords, which are very common words such as, "and" or "a" or "the."  These words, for certain types of algorithms, take away from proper analysis of text, by generating too much noise within the training phase.
+
+While this is technically a form a pre-processing, based upon how this project was authored, I will go over stopwords in another section, [the training section covering the Bag of Words method](/readmesections/BagofWords.md).
+
+
 [Back to Main](/README.md/)

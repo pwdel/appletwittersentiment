@@ -4,7 +4,7 @@
 
 Scoring is the process of applying an algorithmic model built from a historical dataset to a new dataset in order to uncover practical insights that will help solve a business problem, basically, "saving the model." The word, "scoring" is used in the sense of scoring a piece of metal to mark a future cut or drill, basically creating a future hopefully repetitive model.
 
-The code snippet showing how this scoring was done is shown below:
+The code snippet showing how this scoring was done using a logistic regression model is shown below:
 
 ```
 # We had developed the above model fit as follows:
@@ -48,33 +48,90 @@ LogisticRegressionCV(Cs=10, class_weight=None, cv=None, dual=False,
                      solver='lbfgs', tol=0.0001, verbose=0)
 ```
 
-To get a better understanding of what this means, and to be able to work with it more thouroughly I [looked here at LogisticRegressionCV Documentation](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegressionCV.html). The, "CV," here stands for, "Cross Validation."
+To get a better understanding of what this means, and to be able to work with it more thoroughly I [looked here at LogisticRegressionCV Documentation](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegressionCV.html). The, "CV," here stands for, "Cross Validation."
 
 Logistic regression is a classification approach for different classes of data in order to predict whether a data point belongs to one class or another. Sigmoid hypothesis function is used to calculate the probability of y belonging to a particular class. Training data is normalized using Zscore.
 
 ![Logistic Regression Example](/assets/images/logistiregression.png)
 
-To get a better idea of the definitions contained:
+To get a better idea of how a saved, .pkl model is used within an app, I reviewed the following article:
 
-* Cs - Each of the values in Cs describes the inverse of regularization strength. If Cs is as an int, then a grid of Cs values are chosen in a logarithmic scale between 1e-4 and 1e4. Like in support vector machines, smaller values specify stronger regularization.
-* class_weight
-* cv
-* dual
-* fit_intercept - Specifies if a constant (a.k.a. bias or intercept) should be added to the decision function.
-* intercept_scaling
-* l1_ratios
-* max_iter
-* multi_class
-* n_jobs
-* penalty
-* random_state
-* refit
-* scoring
-* solver
-* tol
-* verbose
+[Develop an NLP Model in Python and deploy with Flask](https://towardsdatascience.com/develop-a-nlp-model-in-python-deploy-it-with-flask-step-by-step-744f3bdd7776)
+
+From reading through the code and the overviews given in this article, there appears to be two main approaches:
+
+> Inside [a] predict function, access [the data set], pre-process the text, and make predictions, then store the model. We access the new message entered by the user and use our model to make a prediction for its label.
+
+The code is given as shown below, in which essentially a training model is set up dynamically each time the overall app.py function is called.
+
+```
+clf = MultinomialNB()
+clf.fit(X_train,y_train)
+clf.score(X_test,y_test)
+```
+
+An alternate method is given in the code, commented out is shown below. So the, "alternative method essentially loads the spam model as a saved file into the variable, "clf," or classifier, just as it is with the method mentioned above.
+
+```
+#Alternative Usage of Saved Model
+# joblib.dump(clf, 'NB_spam_model.pkl')
+# NB_spam_model = open('NB_spam_model.pkl','rb')
+# clf = joblib.load(NB_spam_model)
+```
+Both methods are followed by:
+```
+if request.method == 'POST':
+  message = request.form['message']
+  data = [message]
+  vect = cv.transform(data).toarray()
+  my_prediction = clf.predict(vect)
+return render_template('result.html',prediction = my_prediction)
+```
+In either method:
+
+1. The message from a user comes in, and is transformed into a vector with, "cv.transform" which is a method of [scikitLearn](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html) shown here.
+
+The documentation for scikit learn says:
+
+> Convert a collection of text documents to a matrix of token counts  This implementation produces a sparse representation of the counts using scipy.sparse.csr_matrix.
+
+> If you do not provide an a-priori dictionary and you do not use an analyzer that does some kind of feature selection then the number of features will be equal to the vocabulary size found by analyzing the data.
+
+So basically, all cv.transform does is take the vocabulary at hand, given in message, it will just proceed with a vocabulary analysis on that message itself. So basically, cv.transform doesn't have, "awareness," of the previous model.
+
+So basically, to use it properly and have the model make sense, the, "corpus" that gets entered into CountVectorizer() has to include both the "message" or, "user input" combined with a list of known words from the training analysis done earlier.  We can define that work as follows:
+
+> [corpus] = [user input] + [training dictionary of all terms]
+
+```
+corpus = [
+...     'This is the first document.',
+...     'This document is the second document.',
+...     'And this is the third one.',
+...     'Is this the first document?',
+... ]
+>>> vectorizer = CountVectorizer()
+>>> X = vectorizer.fit_transform(corpus)
+
+```
+
 
 
 ![Model Saving Location on Google Drive](/assets/images/savingmodel.png)
+
+### Evaluating the Linear Regression Approach
+
+https://machinelearningmastery.com/gentle-introduction-bag-words-model/
+
+> Word Hashing
+You may remember from computer science that a hash function is a bit of math that maps data to a fixed size set of numbers. For example, we use them in hash tables when programming where perhaps names are converted to numbers for fast lookup. We can use a hash representation of known words in our vocabulary. This addresses the problem of having a very large vocabulary for a large text corpus because we can choose the size of the hash space, which is in turn the size of the vector representation of the document. Words are hashed deterministically to the same integer index in the target hash space. A binary score or count can then be used to score the word. This is called the “hash trick” or “feature hashing“. The challenge is to choose a hash space to accommodate the chosen vocabulary size to minimize the probability of collisions and trade-off sparsity.
+
+https://machinelearningmastery.com/deep-learning-bag-of-words-model-sentiment-analysis/
+
+> It is important to define a vocabulary of known words when using a bag-of-words model. The more words, the larger the representation of documents, therefore it is important to constrain the words to only those believed to be predictive. This is difficult to know beforehand and often it is important to test different hypotheses about how to construct a useful vocabulary. We have already seen how we can remove punctuation and numbers from the vocabulary in the previous section. We can repeat this for all documents and build a set of all known words. We can develop a vocabulary as a Counter, which is a dictionary mapping of words and their count that allows us to easily update and query.
+
+
+
+
 
 [Back to Main](/README.md/)

@@ -32,6 +32,8 @@ Overall, this would form a feedback loop, as I have written about previously in 
 
 ![feedback Loop](/assets/images/feedbackloop.png)
 
+Also noteable as discussed in the section on, [Bag of Words Model Training](/readmesections/BagofWords.md), we had found that the term, "apple" was considered negative, while, "appl," the stock term, was considered positive, which possibly hints at some sort of stock pumping going on.  So when looking at the, "human sentiment gauge," layer, mentioned in steps 2 and 3 above, it would be critical to ensure subject matter expertise around the topic at hand to be able to gauge, "true sentiment," vs. "self-optimized sentiment."
 
+This is different than, "overfitting," which generally takes the form of making an overly complex model to explain idiosyncrasies in the data under study. Overfitting deals with the algorithmic complexity, while gauging true sentiment is more of a soft-skill, basically relying on human awareness to assist downstream quantification.
 
 [Back to Main](/README.md/)
