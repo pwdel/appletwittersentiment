@@ -32,6 +32,30 @@ file.SetContentFile('model.pkl')
 file.Upload()
 ```
 
+![Model Saving Location on Google Drive](/assets/images/savingmodel.png)
+
+We can't stop completely at saving the model to Google Drive, we also have to save columns, since this is a sparse matrix, as well as the vocabulary.  Saving the vocabulary is done within the training Google Colab document via:
+
+```
+index_to_word_df = pd.DataFrame.from_dict(index_to_word,orient='index')
+print(pd.DataFrame.from_dict(index_to_word,orient='index'))
+
+import csv
+
+from google.colab import drive
+drive.mount('drive')
+
+index_to_word_df.to_csv('index_to_word.csv')
+!cp index_to_word.csv "drive/My Drive/"
+
+```
+
+With index_to_word_df representing the dataframe including our vocabulary.  The output CSV file for this looks like the following:
+
+![Sample Vocab Index](/assets/images/samplevocabindex.png)
+
+Looking through this overall list, we see that we have 296 values, which is massively scaled down from what would likely have been found without eliminating stop words and extra characters with regex. Of course, there are also opportunities for future improvement that can even be seen at this stage - including the elimination of numerals, which seem not to add much value, and the expansion of stop items to include additional online slang vocabulary, such as, "ur."
+
 ### How is the Scoring Model Actually Mathematically Used?
 
 So while we know how to load a scored model into a filebase, the question is - once this particular file is loaded, how do you use it?  What does the model indicate and how can you leverage it?
@@ -99,11 +123,15 @@ The documentation for scikit learn says:
 
 So basically, all cv.transform does is take the vocabulary at hand, given in message, it will just proceed with a vocabulary analysis on that message itself. So basically, cv.transform doesn't have, "awareness," of the previous model.
 
-So basically, to use it properly and have the model make sense, the, "corpus" that gets entered into CountVectorizer() has to include both the "message" or, "user input" combined with a list of known words from the training analysis done earlier.  We can define that work as follows:
+To use cv.transform properly and have the model make sense, the, "corpus" that gets entered into CountVectorizer() has to include both the "message" or, "user input" combined with a list of known words from the training analysis done earlier.  We can define that work as follows:
 
 > [corpus] = [user input] + [training dictionary of all terms]
 
-So given this, we have to ensure that
+So given this, we have to ensure that we output our entire important vocabulary from the training method, and then upload it into our, "corpus" application during this stage.
+
+Of course, we don't really know where these models are going to be deployed, and the computing power, but often the vocabulary should be, "limited," whatever that means, vs. the overall larger training set vocabulary, to reduce processing intensity.  The corpus vocabulary we had generated included 296 words, which seems sufficiently small.
+
+Once we have a corpus built, which is essentially a list of strings, we can then put into the vectorizer via fit_transform(), as shown...
 
 ```
 corpus = [
@@ -116,12 +144,12 @@ corpus = [
 >>> X = vectorizer.fit_transform(corpus)
 
 ```
+From our training model discussion under the [BagofWords](/readmesections/BagofWords.md) section, we had originally exported a CSV with the entire vocabulary. However after attempting in different ways unsuccessfully to upload and download the CSV due to an encoding issue, we decided to simply create a list of all of the vocabulary words as, "vocab_list."
 
-![Model Saving Location on Google Drive](/assets/images/savingmodel.png)
 
 ### Evaluating the Linear Regression Approach
 
-https://machinelearningmastery.com/gentle-introduction-bag-words-model/
+[This article](https://machinelearningmastery.com/gentle-introduction-bag-words-model/) talks about the bag of words model in general.
 
 > Word Hashing
 You may remember from computer science that a hash function is a bit of math that maps data to a fixed size set of numbers. For example, we use them in hash tables when programming where perhaps names are converted to numbers for fast lookup. We can use a hash representation of known words in our vocabulary. This addresses the problem of having a very large vocabulary for a large text corpus because we can choose the size of the hash space, which is in turn the size of the vector representation of the document. Words are hashed deterministically to the same integer index in the target hash space. A binary score or count can then be used to score the word. This is called the “hash trick” or “feature hashing“. The challenge is to choose a hash space to accommodate the chosen vocabulary size to minimize the probability of collisions and trade-off sparsity.

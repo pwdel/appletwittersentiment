@@ -125,7 +125,12 @@ After removing stopwords, and also forcing lowercase for all words, we were able
 ![Improved Top Words](/assets/images/improvedtopwords.png)
 ![Improved Word Frequencies](/assets/images/improvedwordfrequencies.png)
 
+### Creating a Vocabulary to Pass to Scoring for Application
 
+At this point, it is important to note that we need to pass not only the machine learning model over from our training model, but also a vocabulary.
 
+This vocabulary was generated as, "index_to_word" within our "get_most_important_features" function.  We can export this vocabulary as a CSV file, which will be downloadable within our application.
+
+More about exporting the vocabulary is covered under, [Scoring](/readmesections/Scoring.md)
 
 [Back to Main](/README.md/)

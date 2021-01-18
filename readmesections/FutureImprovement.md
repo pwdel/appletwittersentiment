@@ -8,6 +8,7 @@
 * Creating a user prompt that allows a data scientist to select which columns they would like to utilize in the creation of a training or performance measuring system, to be able to compare results from different types of inputs and outputs, since it might be unclear which data is considered golden and which is not.
 * Creating extensive lists of stop words, either based upon manual flagging, or gathering them from online and adding them into our models. Certain stop words such as, "a" and "the" might be no-brainers, but this could turn into a more complex project as more stop terms get added.
 * Add confusion matrix, Distributions of Predictions and ROC Curve.
+* Improve CSV upload/download process using proper utf-8 encoding.
 
 ### Time Consuming, Expensive Improvements
 

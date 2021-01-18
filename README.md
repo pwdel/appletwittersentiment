@@ -19,4 +19,11 @@ The following table provides links to readme files narrating various aspects of 
 | [Discussion](/readmesections/Discussion.md)                            | Various points of discussion on the assignment.                                                                                                                            |
 | [Future Improvement](/readmesections/FutureImprovement.md)             | Simpler improvements, more expensive improvements and advanced improvement ideas.                                                                                          |
 
+## Notebooks and Working
+
+* [Google Drive Folder Used](https://drive.google.com/drive/folders/1WicGkBotOouPvv4pwAk1Frfj7xFOwKG4?usp=sharing)
+* [Filtering and Training Colab Notebook](https://colab.research.google.com/drive/1a9ZtMX4TGZmAm_ys1MmKQieoCmPG42V1?usp=sharing)
+* [App Building Colab Notebook](https://colab.research.google.com/drive/1OjLswUQWPp5jHD40PC93rNoBZqhuO4Hu?usp=sharing)
+
+
 ## Instructions for Getting App going
