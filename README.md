@@ -42,7 +42,7 @@ Update 19 Jan 2020
 | ➡️      | I can potentially get this Dockerized using some cloud service, I would need to research that. |
 
 1. Ensure using Python 3.9.  
-2. Download appenv from github repo.
+2. Download main.py and requirements.txt from github repo.
 3. Setup virtualenv and set default python version on your local machine, or remember to always run everything with python3.
 4. In your terminal: $ python3 main.py
 5. Follow app instructions.
