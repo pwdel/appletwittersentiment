@@ -32,6 +32,8 @@ The following table provides links to readme files narrating various aspects of 
 ## Instructions for Getting App going
 
 ❌ Warning! This app does not work.
+➡️ Was unable to get Docker going on MacOS Sierra, Macbook Air. Not compatible.
+
 
 1. Ensure using Python 3.9.  
 2. Download appenv from github repo.
