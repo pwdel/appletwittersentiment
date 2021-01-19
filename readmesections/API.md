@@ -20,13 +20,100 @@ However, pieces of this article were useful to build the API, including how scor
 
 #### Input: Plain Text
 
+Basically we set an input as follows.  We ask for an input, constraiing the input to lower case and 280 Characters.
 
+```
+# clear the tweet string, default to "a"
+tweet_str = "a"
+# ask for input
+tweet_str = input("Enter Your Tweet (Maximum 280 Characters, lowercase letters a-z) : ")[:280] # truncate to 280 characters
+# regex which includes space
+if not re.match("^[a-z \S]*$", tweet_str):
+  print("Error! Only letters A-z allowed!")
+  sys.exit()
+
+print("Your Tweet is: ",tweet_str)
+
+# put tweet_str into dataframe
+
+# Construct input to dataframe
+data = {'tweetstring': [tweet_str]}
+# put tweetstring into dataframe for use in tokenizer
+tweetstr_df = pd.DataFrame(data, columns = ['tweetstring'])
+```
 
 #### Output: Prediction of Sentiment & Probability of Prediction
 
-* get_dummies - Turn a categorical variable into a series of zeros and ones, which makes them a lot easier to quantify and compare.
-* pandas.DataFrame.reindex - Conform Series/DataFrame to new index with optional filling logic
+Import the model:
+
+```
+# load linear regression model back into memory
+lr_model = joblib.load('model.pkl')
+
+print(lr_model)
+
+LogisticRegressionCV(Cs=10, class_weight=None, cv=None, dual=False,
+                     fit_intercept=True, intercept_scaling=1.0, l1_ratios=None,
+                     max_iter=100, multi_class='auto', n_jobs=None,
+                     penalty='l2', random_state=None, refit=True, scoring=None,
+                     solver='lbfgs', tol=0.0001, verbose=0)
+```
+
+Add tokens using bag of words method and regextokenizer.
+
+```
+# Add Tokens Using Bag of Words Method
+from nltk.tokenize import RegexpTokenizer
+
+#NLTK tokenizer
+tokenizer = RegexpTokenizer(r'\w+')
+
+# apply tokenizer
+the_tokens = tweetstr_df['tweetstring'].apply(tokenizer.tokenize)
+
+# create the column to fill
+tokens_df = pd.DataFrame({'tokens':the_tokens})
+```
+
+Adding dummies to tokens to make input viable.
+
+```
+# tokens_df is our dataframe containing the tokenized new tweet input
+query_df = pd.get_dummies(tokens_df['tokens'][0])
+
+# Conform Series/DataFrame to new index with optional filling logic.
+query_df = query_df.reindex(columns=model_columns, fill_value=0)
+```
+
+Using lr_model to predict based upon our query which is the reindexed version shown above.
+
+```
+# print(regr.coef_)
+# put together prediction of each word in a list
+prediction = list(lr_model.predict(query_df))
+
+# put together raw prediction in numbered array
+prediction_raw = lr_model.predict(query_df)
+
+# sum up the prediction
+prediction_sum = np.sum(prediction_raw)
+```
+
+We have to put some logic in place which notates negative vs. positive sentiment based upon the predictor.
+
+Output the prediction as an API / Json readable format.
+
+```
+import json
+
+{
+  tweet:
+  prediction:
+}
+```
 
 ### Model Deployment
+
+
 
 [Back to Main](/README.md/)
