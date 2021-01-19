@@ -31,10 +31,17 @@ The following table provides links to readme files narrating various aspects of 
 
 ## Instructions for Getting App going
 
+Update 19 Jan 2020
+
+<hr>
+
 ❌ Warning! This app does not work.
+<br>
 ➡️ Was unable to get Docker going on MacOS Sierra, Macbook Air. Not compatible.
-
-
+<br>
+➡️ I can potentially get this Dockerized using some cloud service, I would need to research that.
+<br>
+<hr>
 1. Ensure using Python 3.9.  
 2. Download appenv from github repo.
 3. Setup virtualenv and set default python version on your local machine, or remember to always run everything with python3.
