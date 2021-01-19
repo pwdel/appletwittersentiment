@@ -25,5 +25,9 @@ The following table provides links to readme files narrating various aspects of 
 * [Filtering and Training Colab Notebook](https://colab.research.google.com/drive/1a9ZtMX4TGZmAm_ys1MmKQieoCmPG42V1?usp=sharing)
 * [App Building Colab Notebook](https://colab.research.google.com/drive/1OjLswUQWPp5jHD40PC93rNoBZqhuO4Hu?usp=sharing)
 
+## Software Architecture
+
+![Software Architecture](/assets/images/sw-arch.png)
+
 
 ## Instructions for Getting App going
