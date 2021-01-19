@@ -10,6 +10,8 @@
 * Add confusion matrix, Distributions of Predictions and ROC Curve.
 * Improve CSV upload/download process using proper utf-8 encoding.
 * Within our bag of words analysis, we only did a vectorize_fit method with 20% of the available golden data.  If we had used a larger training set, given that our golden data was so limited, perhaps we could have gotten a better fit - however there is of course the risk of over-fitting.
+* Just using general programming practices, creating functions rather than a straight line of 1980's-looking, compiler-looking code in main.py.
+* Fix various depreciated methods and legacy methods according to warnings during installation.
 
 ### Time Consuming, Expensive Improvements
 
@@ -19,6 +21,7 @@
 * Getting a better understanding of what system this may be implemented on, what the long-term software architecture may be, and providing for security analysis options and implementation. Some of these may be easy, no-brainers such as using environmental variables tied to a server, but there may also be a full-range of security best practices that could be implemented, depending upon the vulnerability and value of the underlying software in the future.
 * Within a measurement method, compare optional settings against one another and create a decision tree or other uber-algorithm which finds optimal results. For example, with the BERT example used, one could optionally activate the attention mask option or not and see if this makes a difference.
 * Fine tuning a BERT model for this application based upon the vectors we extracted.
+* Optionally creating an actual web app with flask, or server environment app depending upon where this needs to be deployed, with appropriate input and output API calls or HTTP insertions, according to what is needed.
 
 ### More Advanced Improvements
 

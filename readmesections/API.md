@@ -114,6 +114,34 @@ import json
 
 ### Model Deployment
 
+Docker is not available for the laptop that I brought with me on my trip.  I brought a Macbook Air running macOS High Sierra, and evidently Docker Requires either Mojave or something better than a Macbook Air.
 
+So, rather than create a docker model, I just created a virtual environment using virtualenv.  This is somewhat similar to Docker, in that it's a way of creating a virtual environment, with instructions on what modules to install in a requirements.txt document.  The disadvantage is of course it is not as deployable, repeatable, and has the potential for creating bloat, as opposed to Docker based models which allow a developer to go more, "thin" in terms of the languages, packages and dependencies, as well as having the code itself dockerized.
+
+I understand that containers are critical for modern enterprise app development, but for the purposes of getting this code done and shipped, I had to pivot given the machine I have.  This can always be dockerized in the future.
+
+The way to, "save" dependencies as one goes along using a virtual environment within python is to continuously run,
+
+```
+pip3 freeze > requirements.txt
+```
+
+I wrote this application using super sloppy coding, with no functions, just wanted to get a demo app going.
+
+### Toolchain Debugging
+
+When attempting to build our app from the CoLab source, we run into an error relating to Scipy. There appears to be a [toolkit variability between scipy and numpy as documented here](https://docs.scipy.org/doc/scipy/reference/toolchain.html).
+
+> The table shows the NumPy versions suitable for each major Python version (for SciPy 1.3.x unless otherwise stated).
+
+```
+$ pip3 uninstall scipy
+$ pip3 install scipy==1.3
+```
+
+
+### Deployment Instructions
+
+Can be found at [README.md](/README.md/)
 
 [Back to Main](/README.md/)
