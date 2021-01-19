@@ -9,6 +9,7 @@
 * Creating extensive lists of stop words, either based upon manual flagging, or gathering them from online and adding them into our models. Certain stop words such as, "a" and "the" might be no-brainers, but this could turn into a more complex project as more stop terms get added.
 * Add confusion matrix, Distributions of Predictions and ROC Curve.
 * Improve CSV upload/download process using proper utf-8 encoding.
+* Within our bag of words analysis, we only did a vectorize_fit method with 20% of the available golden data.  If we had used a larger training set, given that our golden data was so limited, perhaps we could have gotten a better fit - however there is of course the risk of over-fitting.
 
 ### Time Consuming, Expensive Improvements
 

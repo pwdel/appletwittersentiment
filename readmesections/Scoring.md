@@ -146,21 +146,41 @@ corpus = [
 ```
 From our training model discussion under the [BagofWords](/readmesections/BagofWords.md) section, we had originally exported a CSV with the entire vocabulary. However after attempting in different ways unsuccessfully to upload and download the CSV due to an encoding issue, we decided to simply create a list of all of the vocabulary words as, "vocab_list."
 
+Therefore, our prediction code should look like the following:
 
-### Evaluating the Linear Regression Approach
+```
+#Alternative Usage of Saved Model
+# open the positive negative model that we created
+posneg_model = open('model.pkl','rb')
+# put model into clf
+clf = joblib.load(posneg_model)
 
-[This article](https://machinelearningmastery.com/gentle-introduction-bag-words-model/) talks about the bag of words model in general.
+# tweet_input is the input from the tokens_df we had generated above
 
-> Word Hashing
-You may remember from computer science that a hash function is a bit of math that maps data to a fixed size set of numbers. For example, we use them in hash tables when programming where perhaps names are converted to numbers for fast lookup. We can use a hash representation of known words in our vocabulary. This addresses the problem of having a very large vocabulary for a large text corpus because we can choose the size of the hash space, which is in turn the size of the vector representation of the document. Words are hashed deterministically to the same integer index in the target hash space. A binary score or count can then be used to score the word. This is called the “hash trick” or “feature hashing“. The challenge is to choose a hash space to accommodate the chosen vocabulary size to minimize the probability of collisions and trade-off sparsity.
+tweet_input = tokens_df['tokens']
+# we combine this with our vocab_list
+data = message + vocab_list
+vect = cv.transform(data).toarray()
+my_prediction = clf.predict(vect)
 
-https://machinelearningmastery.com/deep-learning-bag-of-words-model-sentiment-analysis/
+```
 
-> It is important to define a vocabulary of known words when using a bag-of-words model. The more words, the larger the representation of documents, therefore it is important to constrain the words to only those believed to be predictive. This is difficult to know beforehand and often it is important to test different hypotheses about how to construct a useful vocabulary. We have already seen how we can remove punctuation and numbers from the vocabulary in the previous section. We can repeat this for all documents and build a set of all known words. We can develop a vocabulary as a Counter, which is a dictionary mapping of words and their count that allows us to easily update and query.
+Of course, when we run this, we see an error, from :
 
-Basically,
+```
+my_prediction = clf.predict(vect)
 
-### Exporting a Vocab List
+ValueError: X has 296 features per sample; expecting 360
+```
+
+This is the vector mismatch problem often encountered in matrix math.  To solve this, I need to introduce some kind of sparseness into the vect in order to match up with the posneg_model.
+
+To understand this further, I have to read the [scikit-learn documentation](https://scikit-learn.org/stable/user_guide.html) documentation.
+
+Scikit learn has two main stages, which we covered under the [Bag of Words Model Building Section](/assets/readmesections/BagofWords.md):
+
+* .fit()
+* .prediction()
 
 
 

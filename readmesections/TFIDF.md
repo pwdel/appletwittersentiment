@@ -64,6 +64,7 @@ With head values:
   (0, 346)	0.4857309068059386
   (0, 25)	0.4086390353893864
 ```
+So basically the above type of data is a sort of 3-d chart, with the decimals representing height at a given location in the matrix, which indicates that there is a value of importance at (0,302) of 0.4857309068059386.
 
 This is a sparse matrix, visualizing in a plot looks like the following:
 
