@@ -35,11 +35,11 @@ Update 19 Jan 2020
 
 <hr>
 
-❌ Warning! This app does not work.
+❌ - Warning! This app does not work.
 <br>
-➡️ Was unable to get Docker going on MacOS Sierra, Macbook Air. Not compatible.
+➡️ - I Was unable to get Docker going on MacOS Sierra, Macbook Air. Not compatible.
 <br>
-➡️ I can potentially get this Dockerized using some cloud service, I would need to research that.
+➡️ - I can potentially get this Dockerized using some cloud service, I would need to research that.
 <br>
 
 1. Ensure using Python 3.9.  
