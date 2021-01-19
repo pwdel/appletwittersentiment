@@ -31,6 +31,8 @@ The following table provides links to readme files narrating various aspects of 
 
 ## Instructions for Getting App going
 
+❌ Warning! This app does not work.
+
 1. Ensure using Python 3.9.  
 2. Download appenv from github repo.
 3. Setup virtualenv and set default python version on your local machine, or remember to always run everything with python3.
