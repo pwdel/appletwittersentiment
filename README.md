@@ -35,11 +35,11 @@ Update 19 Jan 2020
 
 <hr>
 
-| Status | Message                                                                                        |   |
-|--------|------------------------------------------------------------------------------------------------|---|
-| ❌      | Warning!  This app does not work.                                                              |   |
-| ➡️      | I Was unable to get Docker going on MacOS Sierra, Macbook Air. Not compatible.                 |   |
-| ➡️      | I can potentially get this Dockerized using some cloud service, I would need to research that. |   |
+| Status | Message                                                                                        |
+|--------|------------------------------------------------------------------------------------------------|
+| ❌      | Warning!  This app does not work.                                                              |
+| ➡️      | I Was unable to get Docker going on MacOS Sierra, Macbook Air. Not compatible.                 |
+| ➡️      | I can potentially get this Dockerized using some cloud service, I would need to research that. |
 
 1. Ensure using Python 3.9.  
 2. Download appenv from github repo.
